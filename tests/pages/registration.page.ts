@@ -2,7 +2,7 @@ import Page from "../pages/BasePage";
 
 class RegistrationPage extends Page {
 
-    get emailTxBx() { return $("input#InputIdentityFlowValue") }
+    get emailTxBx() { return $("div input#InputIdentityFlowValue") }
     get continueBtn() { return $("[data-testid='BtnSubmit']") }
     get createAccountPageTitle() { return $('#Title span') }
     get iframeId() { return $("#oneid-iframe") }
@@ -25,11 +25,11 @@ class RegistrationPage extends Page {
 
 
     async navigateToRegistrationPage(useremail: string) {
-        console.log("Entering email on registration page")
-        await (await this.iframeId).waitForDisplayed({ timeout: 30000 });
+        await console.log("Entering email on registration page")
+        await this.iframeId.waitForDisplayed({ timeout: 30000 });
         await browser.switchToFrame(0);
-        await browser.pause(1);
-        console.log("Switched to Iframe");
+        await browser.pause(2);
+        await console.log("Switched to Iframe");
         await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
         await this.emailTxBx.click();
         await this.waitAndEnterData(this.emailTxBx, Math.random() * 3242424242 + useremail);
@@ -37,7 +37,7 @@ class RegistrationPage extends Page {
         // await browser.pause(40);
         await browser.switchToParentFrame();
         await browser.pause(4);
-        console.log("Entering email on registration page done")
+        await console.log("Entered email on registration page done")
     }
 
 
@@ -99,6 +99,7 @@ class RegistrationPage extends Page {
 
     async openApp() {
         await super.open('https://disneyworld.disney.go.com/registration/');
+        await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
     }
 }

@@ -18,7 +18,7 @@ class LoginPage extends Page {
     }
 
     async login(username: string, password: string) {
-        await (await this.iframeId).waitForDisplayed({ timeout: 30000 });
+        await this.iframeId.waitForDisplayed({ timeout: 30000 });
         await browser.switchToFrame(0);
         await browser.pause(2);
         await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
@@ -38,6 +38,8 @@ class LoginPage extends Page {
 
     async openApp() {
         await super.open('https://disneyworld.disney.go.com/login');
+        await browser.setTimeout({ 'pageLoad': 10000 })
+
     }
 
     async performLogout() {
