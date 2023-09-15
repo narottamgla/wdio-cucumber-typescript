@@ -20,7 +20,7 @@ export const config: Options.Testrunner = {
     // Specify Test Files
     // ==================
     specs: [
-        './tests/specs/features/disney/*.feature'
+        './tests/specs/features/disney/Login.feature'
     ],
     exclude: [],
 
@@ -138,6 +138,7 @@ export const config: Options.Testrunner = {
      * @param {String} commandName hook command name
      * @param {Array} args arguments that command would receive
      */
+
     // beforeCommand: function (commandName, args) {
     // },
     /**

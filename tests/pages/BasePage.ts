@@ -8,7 +8,27 @@ export default class BasePage {
 
     protected async open(path: string) {
         await browser.maximizeWindow();
-        await browser.url(path)
+        await browser.url(path);
+        // await this.waitForPageLoad(path);
+        // await BasePage.waitForPageUrl("disneyworld.disney.go.com/login");
+    }
+
+    protected static async waitForTitle(title) {
+        return await browser.waitUntil(async () => {
+            return browser.getUrl().then((pageTitle) => {
+                console.log("Page Title : " + pageTitle);
+                return pageTitle.indexOf(title) > -1;
+            });
+        }, { timeout: 60000, interval: 500, timeoutMsg: "Page Not loaded properly:" + title });
+    }
+
+    protected static async waitForPageUrl(path) {
+        return await browser.waitUntil(() => {
+            return browser.getUrl().then((pageUrl) => {
+                console.log("Page Loaded properly: " + path);
+                return pageUrl.indexOf(path) > -1;
+            });
+        }, { timeout: 60000, interval: 500, timeoutMsg: "Page Not loaded properly:" + path });
     }
 
     protected async clickElement(element: WebElement) {
