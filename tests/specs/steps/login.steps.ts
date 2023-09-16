@@ -8,6 +8,8 @@ Given(/^I am on the login page$/, async () => {
 
 When(/^I login with (.+) and (.+)$/, async (username, password) => {
     await LoginPage.login(username, password)
+    await browser.pause(4000);
+
 });
 
 Then(/^I should see a home page of disney world$/, async () => {

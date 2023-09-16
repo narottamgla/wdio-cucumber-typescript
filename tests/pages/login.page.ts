@@ -30,7 +30,7 @@ class LoginPage extends Page {
     }
 
     async validateLogin() {
-        await browser.pause(8000);
+        await browser.pause(18000);
         await this.signOutLink.waitForDisplayed({ timeout: 10000 });
         await expect(this.signOutLink).toBeExisting();
         await expect(this.welcomeUser).toBeExisting();
@@ -39,7 +39,6 @@ class LoginPage extends Page {
     async openApp() {
         await super.open('https://disneyworld.disney.go.com/login');
         await browser.setTimeout({ 'pageLoad': 10000 })
-
     }
 
     async performLogout() {

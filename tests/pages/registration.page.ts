@@ -23,6 +23,9 @@ class RegistrationPage extends Page {
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
 
+    
+
+    get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
 
     async navigateToRegistrationPage(useremail: string) {
         await console.log("Entering email on registration page")
@@ -70,19 +73,39 @@ class RegistrationPage extends Page {
     }
 
     async enterPasswordDOB(password: string, dob: string) {
+        await browser.pause(2000);
         await this.waitAndEnterData(this.passwordTxBx, password);
+        await browser.pause(2000);
+
         await this.waitAndEnterData(this.dateBirthTxBx, dob);
+        await browser.pause(9000);
+
 
     }
 
 
     async enterBillingDetails(country: string, addressLine1: string, addressLine2: string, city: string, region: string, postalCode: string) {
-        //  await this.waitAndEnterData(this.inputUsername, country);
+        await browser.pause(2000);
         await this.waitAndEnterData(this.billingAddress1, addressLine1);
         await this.waitAndEnterData(this.billingAddress2, addressLine2);
+        await browser.pause(1000);
+        await this.clickElement(this.billingCountry);
+        await browser.pause(1000);
+        await this.billingCountry.setValue(country);
+        await browser.pause(8000);
+
         await this.waitAndEnterData(this.cityTxBx, city);
-        await this.waitAndEnterData(this.regisonTxBx, region);
+        await browser.pause(1000);
         await this.waitAndEnterData(this.postCodeTxBx, postalCode);
+        await browser.pause(8000);
+
+
+        await this.waitAndEnterData(this.regisonTxBx, region);
+        await browser.pause(18000);
+        await browser.pause(8000);
+        await this.clickElement(this.regisonTxBx);
+        await browser.pause(8000);
+
     }
 
     async selectConsents() {
