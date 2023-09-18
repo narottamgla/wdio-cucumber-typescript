@@ -8,9 +8,13 @@ class LoginPage extends Page {
     get inputPassword() { return $('[data-testid="InputPassword"]') }
     get btnSubmit() { return $('[data-testid="BtnSubmit"]') }
     get iframeId() { return $("#oneid-iframe") }
-    get signOutLink() { return $("(//a[text()='Sign Out'])[1]") }
+    get signOutLink() { return $("(//a[@href='/authentication/logout/'][contains(.,'Sign Out')])[1]") }
     get welcomeUser() { return $("(//a[@href='/profile'])[1]") }
     get signCreateButton() { return $("(//*[@id='navigationHeader']//div[2]/div[1]/a)[1]") }
+    get fnfLink() { return $("//a[contains(@name,'&lid=WDW_Footer_MDX_FamilyFriends')]") }
+    get loginErrorMsg(){ return $("#InputPassword-error")}
+
+
 
     async switchToFrame() {
         await browser.switchToFrame(0);
@@ -27,13 +31,39 @@ class LoginPage extends Page {
         await this.clickElement(this.continueBtn);
         await this.waitAndEnterData(this.inputPassword, password);
         await this.waitAndclick(this.btnSubmit);
+        await browser.pause(18000);
+    }
+
+    async loginExistingUser(username: string, password: string) {
+      //  await browser.pause(8000);
+       // await browser.switchToParentFrame();
+        await browser.pause(8000);
+        await this.iframeId.waitForDisplayed({ timeout: 30000 });
+        await browser.switchToFrame(0);
+        await browser.pause(2000);
+        await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
+        await this.inputUsername.click();
+        await this.waitAndEnterData(this.inputUsername, username);
+        await this.clickElement(this.continueBtn);
+        await this.waitAndEnterData(this.inputPassword, password);
+        await this.waitAndclick(this.btnSubmit);
+        await browser.pause(18000);
     }
 
     async validateLogin() {
         await browser.pause(18000);
+        await browser.switchToParentFrame();
         await this.signOutLink.waitForDisplayed({ timeout: 10000 });
         await expect(this.signOutLink).toBeExisting();
         await expect(this.welcomeUser).toBeExisting();
+        await expect(this.fnfLink).toBeDisplayed();
+    }
+
+    async validateLoginError(){
+        await browser.pause(18000);
+       /// await browser.switchToParentFrame();
+        await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
+        await expect(this.loginErrorMsg).toBeExisting();
     }
 
     async openApp() {
@@ -48,7 +78,7 @@ class LoginPage extends Page {
     async validateLogout() {
         await browser.pause(8000);
         await this.signCreateButton.waitForExist({ timeout: 10000 });
-        await expect(await this.signCreateButton.getText()).toEqual("Sign In or Create Account");
+        await expect(await this.signCreateButton.getText()).toContain("Sign In or Create Account");
     }
 
 

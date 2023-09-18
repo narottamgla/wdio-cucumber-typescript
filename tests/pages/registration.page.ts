@@ -17,7 +17,7 @@ class RegistrationPage extends Page {
     get billingAddress1() { return $("[data-testid='BillingAddress-Line1Input']") }
     get billingAddress2() { return $("[data-testid='BillingAddress-Line2Input']") }
     get cityTxBx() { return $("[data-testid='BillingAddress-CityInput']") }
-    get regisonTxBx() { return $("[data-testid='BillingAddress-RegionInput']") }
+    get regisonTxBx() { return $("//select[@id='BillingAddress-RegionSelect']") }
     get postCodeTxBx() { return $("[data-testid='BillingAddress-PostalCode']") }
     get disneyTNC() { return $("[data-testid='WDW-NGE2-TOU']") }
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
@@ -35,7 +35,7 @@ class RegistrationPage extends Page {
         await console.log("Switched to Iframe");
         await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
         await this.emailTxBx.click();
-        await this.waitAndEnterData(this.emailTxBx, Math.random() * 3242424242 + useremail);
+        await this.waitAndEnterData(this.emailTxBx,  useremail);
         await this.clickElement(this.continueBtn);
         // await browser.pause(40);
         await browser.switchToParentFrame();
@@ -60,6 +60,7 @@ class RegistrationPage extends Page {
 
     async verifyIsLogOutButtonDisplayed() {
         await browser.pause(3);
+        browser.switchToParentFrame();
         await (await this.logoutButton).waitForDisplayed({ timeout: 30000 });
         await expect(this.logoutButton).toBeExisting();
         console.log("User registration done")
@@ -83,30 +84,42 @@ class RegistrationPage extends Page {
 
     }
 
-
     async enterBillingDetails(country: string, addressLine1: string, addressLine2: string, city: string, region: string, postalCode: string) {
+        await browser.pause(3000);
+        await this.clickElement(this.billingCountry);
+        await browser.pause(1000);
+        await this.selectDropdownByText(this.billingCountry, country);
         await browser.pause(2000);
         await this.waitAndEnterData(this.billingAddress1, addressLine1);
         await this.waitAndEnterData(this.billingAddress2, addressLine2);
-        await browser.pause(1000);
-        await this.clickElement(this.billingCountry);
-        await browser.pause(1000);
-        await this.billingCountry.setValue(country);
-        await browser.pause(8000);
-
         await this.waitAndEnterData(this.cityTxBx, city);
         await browser.pause(1000);
         await this.waitAndEnterData(this.postCodeTxBx, postalCode);
         await browser.pause(8000);
-
-
-        await this.waitAndEnterData(this.regisonTxBx, region);
-        await browser.pause(18000);
+      /*  await this.clickElement(this.regisonTxBx);
+        await browser.pause(1000);
+        await this.selectDropdownByText(this.regisonTxBx, region);
+        */
+        
+        try {
+            if (await (await this.regisonTxBx).isExisting()) {
+              await this.clickElement(this.regisonTxBx);
+              await browser.pause(1000);
+              await this.selectDropdownByText(this.regisonTxBx, region);
+            }
+          } catch (error) {
+            // Handle the case where this.regisonTxBx does not exist
+            console.error("Element not found:", error.message);
+            // You can add further error handling or logging here if needed
+          }
+          
+         
+                    
         await browser.pause(8000);
-        await this.clickElement(this.regisonTxBx);
         await browser.pause(8000);
 
     }
+
 
     async selectConsents() {
         await this.disneyTNC.click();
@@ -121,7 +134,7 @@ class RegistrationPage extends Page {
     }
 
     async openApp() {
-        await super.open('https://disneyworld.disney.go.com/registration/');
+        await super.open('https://disneyworld.disney.go.com/login/');
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
     }

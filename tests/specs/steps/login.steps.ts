@@ -16,6 +16,10 @@ Then(/^I should see a home page of disney world$/, async () => {
     await LoginPage.validateLogin();
 });
 
+Then(/^I should see logerror message$/, async () => {
+    await LoginPage.validateLoginError();
+});
+
 When(/^I click logout button of disney world app$/, async () => {
     await LoginPage.performLogout();
 });

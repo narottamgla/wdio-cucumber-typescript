@@ -18,3 +18,8 @@ export const generateRandomDataWithSpecialChar = (numberOfChar: number): string 
     }
     return randomString;
 }
+
+  
+  const randomString = generateRandomDataWithSpecialChar(256);
+  console.log(randomString);
+  
