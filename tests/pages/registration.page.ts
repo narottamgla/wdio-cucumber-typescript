@@ -59,7 +59,7 @@ class RegistrationPage extends Page {
 
 
     async verifyIsLogOutButtonDisplayed() {
-        await browser.pause(3);
+        await browser.pause(3000);
         browser.switchToParentFrame();
         await (await this.logoutButton).waitForDisplayed({ timeout: 30000 });
         await expect(this.logoutButton).toBeExisting();
@@ -103,7 +103,7 @@ class RegistrationPage extends Page {
         
         try {
             if (await (await this.regisonTxBx).isExisting()) {
-              await this.clickElement(this.regisonTxBx);
+             //await this.clickElement(this.regisonTxBx);
               await browser.pause(1000);
               await this.selectDropdownByText(this.regisonTxBx, region);
             }
@@ -112,12 +112,9 @@ class RegistrationPage extends Page {
             console.error("Element not found:", error.message);
             // You can add further error handling or logging here if needed
           }
-          
-         
                     
         await browser.pause(8000);
         await browser.pause(8000);
-
     }
 
 

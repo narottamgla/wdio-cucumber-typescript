@@ -4,6 +4,7 @@ import LoginPage from "../../pages/login.page";
 
 Given(/^I am on the login page$/, async () => {
     await LoginPage.openApp()
+
 });
 
 When(/^I login with (.+) and (.+)$/, async (username, password) => {
