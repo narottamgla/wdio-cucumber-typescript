@@ -92,6 +92,13 @@ class LoginPage extends Page {
         await expect(this.loginErrorMsg).toBeExisting();
     }
 
+    async validateLoginErrorMessage(errorMsg:string){
+        await browser.pause(18000);
+       /// await browser.switchToParentFrame();
+        await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
+        await expect((await this.loginErrorMsg.getText()).indexOf(errorMsg)>-1).toBe(true);
+    }
+
     async openApp() {
         await super.open('https://disneyworld.disney.go.com/login');
         await browser.setTimeout({ 'pageLoad': 10000 })

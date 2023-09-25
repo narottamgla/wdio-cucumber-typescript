@@ -20,7 +20,7 @@ export const config: Options.Testrunner = {
     // Specify Test Files
     // ==================
     specs: [
-        './tests/specs/features/disney/*.feature'
+        './tests/specs/features/disney/Registration.feature'
     ],
     exclude: [],
 

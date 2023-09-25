@@ -21,6 +21,11 @@ Then(/^I should see logerror message$/, async () => {
     await LoginPage.validateLoginError();
 });
 
+
+Then(/^I should see logerror message as (.+)$/, async (errorMsg:string) => {
+    await LoginPage.validateLoginErrorMessage(errorMsg);
+});
+
 When(/^I click logout button of disney world app$/, async () => {
     await LoginPage.performLogout();
 });

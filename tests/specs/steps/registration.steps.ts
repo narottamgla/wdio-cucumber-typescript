@@ -21,6 +21,12 @@ When(/^I login with the existing user$/, async () => {
     await browser.pause(4000);
 });
 
+When(/^I login with existing user with password as (.+)$/, async (password:string) => {
+    await LoginPage.loginExistingUser(randomEmail, password)
+    await browser.pause(4000);
+});
+
+
 When(/^I enter Prefix as (.+), firstname as (.+) ,lastname as (.+)$/, async (prefix, firstname, lastname) => {
     await browser.pause(8000);
     await RegistrationPage.enterUserDetails(prefix, firstname, lastname);

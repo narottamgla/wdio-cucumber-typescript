@@ -13,7 +13,7 @@
 ### Getting Started
 Clone Repository
 ```bash
-1. git clone https://github.com/sadabnepal/WebdriverIOTypeScriptCucumber.git
+1. git clone repo
 2. Navigate to `WebdriverIOTypeScriptCucumber`
 ```
 
