@@ -27,7 +27,7 @@ Feature: Registration feature for Disney world
   Scenario Outline: As a user, I should not log into the Disney world with Bad password
     Given I am on the login page
     When I login with existing user with password as "disney123"
-    Then I should see logerror message
+    Then I should see logerror message as <errorMsg>
     Examples:
       | username                 | password     | errorMsg               |
       | OST7G92EZ@mailinator.com | disney123444 | We couldn't log you in |
