@@ -1,6 +1,7 @@
 import Page from "../pages/BasePage";
 
 class RegistrationPage extends Page {
+    
 
     get emailTxBx() { return $("div input#InputIdentityFlowValue") }
     get continueBtn() { return $("[data-testid='BtnSubmit']") }
@@ -22,6 +23,7 @@ class RegistrationPage extends Page {
     get disneyTNC() { return $("[data-testid='WDW-NGE2-TOU']") }
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
+    get passwordError() {return $("#password-new-error")}
 
     
 
@@ -134,6 +136,11 @@ class RegistrationPage extends Page {
         await super.open('https://disneyworld.disney.go.com/login/');
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
+    }
+
+    async validatePasswordErrorMessage(errorMsg:string) {
+        await expect(await this.passwordError.getText()).toEqual(errorMsg);
+
     }
 }
 

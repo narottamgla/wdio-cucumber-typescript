@@ -1,6 +1,7 @@
-import { Given, When } from '@cucumber/cucumber';
+import { Given, When,Then } from '@cucumber/cucumber';
 import RegistrationPage from '../../pages/registration.page';
 import LoginPage from '../../pages/login.page';
+import { generateRandomDataWithSpecialChar } from '../../utils/random';
 
 
 let randomEmail:any;
@@ -34,10 +35,14 @@ When(/^I enter Prefix as (.+), firstname as (.+) ,lastname as (.+)$/, async (pre
 
 When(/^I enter Password as (.+) and Birthdate as (.+)$/, async (password, dob) => {
     await browser.pause(2000);
-
     await RegistrationPage.enterPasswordDOB(password, dob);
 });
 
+When(/^I enter Password with length (.+) and Birthdate as (.+)$/, async (passwordlenth, dob) => {
+    await browser.pause(2000);
+    let password = generateRandomDataWithSpecialChar(257);
+    await RegistrationPage.enterPasswordDOB(password, dob);
+});
 
 When(/^I enter Billing address country as (.+), address as (.+), line2 as (.+), city as (.+), region as (.+) and postalcode as (.+)$/, async (country, address1, address2, city, region, postalCode) => {
     await browser.pause(8000);
@@ -46,6 +51,19 @@ When(/^I enter Billing address country as (.+), address as (.+), line2 as (.+), 
 
 
 
+Then(/^I should see password error message as (.+)$/, async (errorMsg) => {
+    await browser.pause(2000);
+    await RegistrationPage.validatePasswordErrorMessage(errorMsg);
+});
+
+
+When(/^I click on (.+) on registration page$/, async (name) => {
+    await browser.pause(2000);
+});
+
+Then(/^I should see (.+) Page$/, async (name) => {
+    await browser.pause(2000);
+});
 
 
 When(/^I selects notification consent as (.+) and disney world consent as (.+)$/, async (consent1: string, consent: string) => {
