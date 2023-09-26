@@ -1,7 +1,6 @@
 import Page from "../pages/BasePage";
 
 class RegistrationPage extends Page {
-    
 
     get emailTxBx() { return $("div input#InputIdentityFlowValue") }
     get continueBtn() { return $("[data-testid='BtnSubmit']") }
@@ -23,9 +22,9 @@ class RegistrationPage extends Page {
     get disneyTNC() { return $("[data-testid='WDW-NGE2-TOU']") }
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
-    get passwordError() {return $("#password-new-error")}
+    get passwordError() { return $("#password-new-error") }
 
-    
+
 
     get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
 
@@ -37,7 +36,7 @@ class RegistrationPage extends Page {
         await console.log("Switched to Iframe");
         await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
         await this.emailTxBx.click();
-        await this.waitAndEnterData(this.emailTxBx,  useremail);
+        await this.waitAndEnterData(this.emailTxBx, useremail);
         await this.clickElement(this.continueBtn);
         // await browser.pause(40);
         await browser.switchToParentFrame();
@@ -98,23 +97,23 @@ class RegistrationPage extends Page {
         await browser.pause(1000);
         await this.waitAndEnterData(this.postCodeTxBx, postalCode);
         await browser.pause(8000);
-      /*  await this.clickElement(this.regisonTxBx);
-        await browser.pause(1000);
-        await this.selectDropdownByText(this.regisonTxBx, region);
-        */
-        
+        /*  await this.clickElement(this.regisonTxBx);
+          await browser.pause(1000);
+          await this.selectDropdownByText(this.regisonTxBx, region);
+          */
+
         try {
             if (await (await this.regisonTxBx).isExisting()) {
-             //await this.clickElement(this.regisonTxBx);
-              await browser.pause(1000);
-              await this.selectDropdownByText(this.regisonTxBx, region);
+                //await this.clickElement(this.regisonTxBx);
+                await browser.pause(1000);
+                await this.selectDropdownByText(this.regisonTxBx, region);
             }
-          } catch (error) {
+        } catch (error) {
             // Handle the case where this.regisonTxBx does not exist
             console.error("Element not found:", error.message);
             // You can add further error handling or logging here if needed
-          }
-                    
+        }
+
         await browser.pause(8000);
         await browser.pause(8000);
     }
@@ -138,9 +137,16 @@ class RegistrationPage extends Page {
         console.log("Opened registration page")
     }
 
-    async validatePasswordErrorMessage(errorMsg:string) {
+    async validatePasswordErrorMessage(errorMsg: string) {
         await expect(await this.passwordError.getText()).toEqual(errorMsg);
 
+    }
+
+    async clickPrivacyAndTNCLinks(name: any) {
+
+        (await $("=" + name + "")).click();
+        const handles = await browser.getWindowHandles()
+        await browser.switchToWindow(handles[1])
     }
 }
 

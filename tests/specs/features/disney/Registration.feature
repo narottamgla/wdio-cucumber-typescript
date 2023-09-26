@@ -64,6 +64,6 @@ Feature: Registration feature for Disney world
     Then I should see "Privacy Policy" Page
 
   Scenario: As a user, I should able to view - My Disney Experience Terms and Conditions.
-    When I click on "Experience Terms and Conditions" on registration page
-    Then I should see "Experience Terms and Conditions" Page
+    When I click on "My Disney Experience Terms and Conditions" on registration page
+    Then I should see "My Disney Experience Terms and Conditions" Page
 

@@ -59,6 +59,8 @@ Then(/^I should see password error message as (.+)$/, async (errorMsg) => {
 
 When(/^I click on (.+) on registration page$/, async (name) => {
     await browser.pause(2000);
+    await RegistrationPage.verifyUserNavigationToRegistrationPage();
+    RegistrationPage.clickPrivacyAndTNCLinks(name);
 });
 
 Then(/^I should see (.+) Page$/, async (name) => {
