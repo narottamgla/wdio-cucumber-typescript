@@ -143,10 +143,15 @@ class RegistrationPage extends Page {
     }
 
     async clickPrivacyAndTNCLinks(name: any) {
-
         (await $("=" + name + "")).click();
         const handles = await browser.getWindowHandles()
         await browser.switchToWindow(handles[1])
+    }
+
+    async validateNewTNCWindow(name:any){
+        if(name ==""){
+            //need to update
+        }
     }
 }
 
