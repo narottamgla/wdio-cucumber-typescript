@@ -13,7 +13,6 @@ Feature: Registration feature for Disney world
     Then I should see logged user and logout button
     When I am on the login page
     When I login with existing user with password as "disney123"
-    #And I login with the existing user
     Then I should see a home page of disney world
     Then I should see logged user and logout button
     Examples:
@@ -35,7 +34,6 @@ Feature: Registration feature for Disney world
     Then I should see logged user and logout button
     When I am on the login page
     When I login with existing user with password as "disney123"
-    #And I login with the existing user
     Then I should see a home page of disney world
     Then I should see logged user and logout button
     Examples:

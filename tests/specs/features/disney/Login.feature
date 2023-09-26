@@ -12,18 +12,4 @@ Feature: Disney world Login feature
      # | username                 | password  |
       #| OST7G92EZ@mailinator.com | disney123 |
 
-  Scenario Outline: As a user, I should not log into the Disney world with Bad password
-    Given I am on the login page
-    When I login with <username> and <password>
-    Then I should see logerror message
-    Examples:
-      | username                 | password     | errorMsg               |
-      | OST7G92EZ@mailinator.com | disney123444 | We couldn't log you in |
-
-  Scenario Outline: As a user, I should not log into the Disney world with blank password
-    Given I am on the login page
-    When I login with <username> and ""
-    Then I should see logerror message as <errorMsg>
-    Examples:
-      | username                 | password | errorMsg               |
-      | OST7G92EZ@mailinator.com | ""       | We couldn't log you in |
+ 

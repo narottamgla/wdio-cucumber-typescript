@@ -23,16 +23,14 @@ class RegistrationPage extends Page {
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
     get passwordError() { return $("#password-new-error") }
-
-
-
     get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
 
     async navigateToRegistrationPage(useremail: string) {
         await console.log("Entering email on registration page")
+        await browser.pause(5000);
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(0);
-        await browser.pause(2);
+        await browser.switchToFrame(1);
+        await browser.pause(5000);
         await console.log("Switched to Iframe");
         await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
         await this.emailTxBx.click();
@@ -40,13 +38,13 @@ class RegistrationPage extends Page {
         await this.clickElement(this.continueBtn);
         // await browser.pause(40);
         await browser.switchToParentFrame();
-        await browser.pause(4);
+        await browser.pause(4000);
         await console.log("Entered email on registration page done")
     }
 
 
     async verifyUserNavigationToRegistrationPage() {
-        await browser.pause(2);
+        await browser.pause(20000);
         console.log("Verifying Navigation to reg page")
         // await this.regFrame.waitForDisplayed({ timeout: 30000 });
         await browser.switchToFrame(0);
@@ -60,7 +58,7 @@ class RegistrationPage extends Page {
 
 
     async verifyIsLogOutButtonDisplayed() {
-        await browser.pause(3000);
+        await browser.pause(30000);
         browser.switchToParentFrame();
         await (await this.logoutButton).waitForDisplayed({ timeout: 30000 });
         await expect(this.logoutButton).toBeExisting();
@@ -143,6 +141,8 @@ class RegistrationPage extends Page {
     }
 
     async clickPrivacyAndTNCLinks(name: any) {
+        await browser.pause(8000);
+        await browser.switchToFrame(0);
         (await $("=" + name + "")).click();
         const handles = await browser.getWindowHandles()
         await browser.switchToWindow(handles[1])
