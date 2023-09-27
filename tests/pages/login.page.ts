@@ -79,10 +79,6 @@ class LoginPage extends Page {
             console.error("An error occurred:", error.message);
             // You can add further error handling or logging here if needed
         }
-        
-
-        
-
     }
 
     async validateLoginError(){

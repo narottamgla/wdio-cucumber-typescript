@@ -22,14 +22,17 @@ class RegistrationPage extends Page {
     get disneyTNC() { return $("[data-testid='WDW-NGE2-TOU']") }
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
-    get passwordError() { return $("#password-new-error") }
+    get passwordError() { return $("span[data-testid='password-new-error']") }
     get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
+    get termOfUsePageText() { return $(".fl-post-header h1") }
+    get privacyPolicyPageText() { return $(".animated.bounceInUp h1") }
+
 
     async navigateToRegistrationPage(useremail: string) {
         await console.log("Entering email on registration page")
         await browser.pause(5000);
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(1);
+        await browser.switchToFrame(0);
         await browser.pause(5000);
         await console.log("Switched to Iframe");
         await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
@@ -60,7 +63,7 @@ class RegistrationPage extends Page {
     async verifyIsLogOutButtonDisplayed() {
         await browser.pause(30000);
         browser.switchToParentFrame();
-        await (await this.logoutButton).waitForDisplayed({ timeout: 30000 });
+        await await this.logoutButton.waitForDisplayed({ timeout: 30000 });
         await expect(this.logoutButton).toBeExisting();
         console.log("User registration done")
     }
@@ -144,14 +147,23 @@ class RegistrationPage extends Page {
         await browser.pause(8000);
         await browser.switchToFrame(0);
         (await $("=" + name + "")).click();
-        const handles = await browser.getWindowHandles()
+        const handles = await browser.getWindowHandles();
         await browser.switchToWindow(handles[1])
     }
 
-    async validateNewTNCWindow(name:any){
-        if(name ==""){
-            //need to update
+    async validateNewTNCWindow(name: any) {
+        if (name == "Terms of Use") {
+            await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
+
         }
+
+        if (name == "Privacy Policy") {
+            await expect(await this.privacyPolicyPageText.getText()).toEqual("Privacy Policy");
+
+        }
+        const handles = await browser.getWindowHandles();
+        await browser.switchToWindow(handles[0]);
+
     }
 }
 
