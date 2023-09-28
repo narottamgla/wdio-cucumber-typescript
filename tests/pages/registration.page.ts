@@ -26,7 +26,12 @@ class RegistrationPage extends Page {
     get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
     get termOfUsePageText() { return $(".fl-post-header h1") }
     get privacyPolicyPageText() { return $(".animated.bounceInUp h1") }
-    get disneyExpHeaderText() {return $(".header-text h1");}
+    get disneyExpHeaderText() { return $(".header-text h1"); }
+    get editCountryButton() { return $("#UpdateLegalCountry > a"); }
+    get changeCountryDropdown() { return $("//select[@id='InputSelect']") }
+    get changeCountryDoneButton() { return $("[data-testid='BtnSubmit']") }
+    get countryNameLabelOnRegPage() { return $("#UpdateLegalCountry") };
+
 
 
     async navigateToRegistrationPage(useremail: string) {
@@ -164,7 +169,7 @@ class RegistrationPage extends Page {
     async validatePasswordErrorMessage(errorMsg: string) {
         await browser.switchToParentFrame();
         await browser.switchToFrame(0);
-        await this.passwordError.waitForDisplayed({ timeout: 10000 }); 
+        await this.passwordError.waitForDisplayed({ timeout: 10000 });
         expect(await this.passwordError.getText()).toEqual(errorMsg);
 
     }
@@ -226,14 +231,37 @@ class RegistrationPage extends Page {
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
                 browser.switchToWindow(handles[i])
-            } 
+            }
             await expect(await this.disneyExpHeaderText.getText()).toEqual("My Disney Experience Terms and Conditions");
             console.log("Validation done for " + name)
 
         }
+    }
 
+    async editCountry(country: string) {
+        console.log("Changing country as country: "+ country)
+        await this.waitAndclick(this.editCountryButton);
+        await browser.pause(8000);
+        await browser.switchToParentFrame();
+        await browser.pause(18000);
+        await browser.switchToFrame(1);
+        await browser.pause(8000);
+        await this.changeCountryDropdown.click();
+        await this.selectDropdownByText(this.changeCountryDropdown, country);
+        await this.changeCountryDoneButton.click();
+        await browser.switchToParentFrame();
 
     }
+
+
+    async validateChangeCountry(country: string) {
+        console.log("Validate Change country")
+        await browser.pause(10000);
+        await browser.switchToFrame(1);
+        await browser.pause(8000);
+        await expect(await this.countryNameLabelOnRegPage.getText()).toContain(country);
+    }
+
 }
 
 export default new RegistrationPage();

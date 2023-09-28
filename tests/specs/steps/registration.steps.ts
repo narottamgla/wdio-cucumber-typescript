@@ -80,6 +80,15 @@ When(/^I should see logged user and logout button$/, async () => {
     await RegistrationPage.verifyIsLogOutButtonDisplayed();
 });
 
+When(/^I click on Edit Button to change country as (.+)$/, async (country) => {
+    await browser.pause(2000);
+    await RegistrationPage.editCountry(country.replace(/^"|"$/g, ''));
+});
+
+Then(/^I should change country as (.+) on registration page$/, async (country) => {
+    await browser.pause(2000);
+    await RegistrationPage.validateChangeCountry(country.replace(/^"|"$/g, ''));
+});
 
 
 

@@ -54,7 +54,6 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
       | useremail                 | prefix | firstname | lastname | password  | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | disney123 | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
- @mytest
   Scenario Outline: As a valid user, I should able see password error message if password length 257 character
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -85,3 +84,8 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
     When I click on "My Disney Experience Terms and Conditions" on registration page
     Then I should see "My Disney Experience Terms and Conditions" Page
 
+  @mytest
+  Scenario: As a user, I should able to change country for registration
+    When I fill username as "test12@mailinator.com" and click continue button
+    When I click on Edit Button to change country as "Hungary" 
+    Then I should change country as "Hungary" on registration page
