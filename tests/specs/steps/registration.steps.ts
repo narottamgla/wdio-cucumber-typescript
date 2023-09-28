@@ -57,12 +57,12 @@ Then(/^I should see password error message as (.+)$/, async (errorMsg) => {
 
 When(/^I click on (.+) on registration page$/, async (name) => {
     await browser.pause(2000);
-    RegistrationPage.clickPrivacyAndTNCLinks(name);
+    RegistrationPage.clickPrivacyAndTNCLinks(name.replace(/^"|"$/g, ''));
 });
 
 Then(/^I should see (.+) Page$/, async (name) => {
     await browser.pause(2000);
-    await RegistrationPage.validateNewTNCWindow(name);
+    await RegistrationPage.validateNewTNCWindow(name.replace(/^"|"$/g, ''));
 });
 
 

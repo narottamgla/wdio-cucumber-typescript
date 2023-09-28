@@ -12,7 +12,7 @@ class LoginPage extends Page {
     get welcomeUser() { return $("(//a[@href='/profile'])[1]") }
     get signCreateButton() { return $("(//*[@id='navigationHeader']//div[2]/div[1]/a)[1]") }
     get fnfLink() { return $("//a[contains(@name,'&lid=WDW_Footer_MDX_FamilyFriends')]") }
-    get loginErrorMsg(){ return $("#InputPassword-error")}
+    get loginErrorMsg() { return $("#InputPassword-error") }
 
 
 
@@ -35,12 +35,21 @@ class LoginPage extends Page {
     }
 
     async loginExistingUser(username: string, password: string) {
-        await browser.pause(8000);
-        await browser.switchToParentFrame();
-        await browser.pause(8000);
+        try {
+            await browser.pause(8000);
+            await browser.switchToParentFrame();
+            await browser.pause(8000);
+        } catch (error) {
+            console.log("Error while switching to parent frame")
+        }
+        try{
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
         await browser.switchToFrame(1);
         await browser.pause(2000);
+        }catch(error){
+        console.log("Error while switching to Child frame")
+
+        }
         await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
         await this.inputUsername.click();
         await this.waitAndEnterData(this.inputUsername, username);
@@ -55,7 +64,7 @@ class LoginPage extends Page {
         try {
             await browser.pause(18000);
             await browser.switchToParentFrame();
-        
+
             if (await (await this.signOutLink).isExisting()) {
                 await this.signOutLink.waitForDisplayed({ timeout: 10000 });
                 await expect(this.signOutLink).toBeExisting();
@@ -66,7 +75,7 @@ class LoginPage extends Page {
                 console.error("Sign Out link not found.");
                 // You can add further error handling or logging here if needed
             }
-        
+
             if (await this.continueBtn.isExisting()) {
                 await expect(this.continueBtn).toBeExisting();
             } else {
@@ -81,18 +90,18 @@ class LoginPage extends Page {
         }
     }
 
-    async validateLoginError(){
+    async validateLoginError() {
         await browser.pause(18000);
-       /// await browser.switchToParentFrame();
+        /// await browser.switchToParentFrame();
         await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
         await expect(this.loginErrorMsg).toBeExisting();
     }
 
-    async validateLoginErrorMessage(errorMsg:string){
+    async validateLoginErrorMessage(errorMsg: string) {
         await browser.pause(18000);
-       /// await browser.switchToParentFrame();
+        /// await browser.switchToParentFrame();
         await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
-        await expect((await this.loginErrorMsg.getText()).indexOf(errorMsg)>-1).toBe(true);
+        await expect((await this.loginErrorMsg.getText()).indexOf(errorMsg) > -1).toBe(true);
     }
 
     async openApp() {

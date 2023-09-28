@@ -54,6 +54,7 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
       | useremail                 | prefix | firstname | lastname | password  | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | disney123 | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
+ @mytest
   Scenario Outline: As a valid user, I should able see password error message if password length 257 character
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -69,13 +70,11 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
 
   
 
- @mytest
   Scenario: As a user, I should able to view - Open External Browser For Terms of Use
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "Terms of Use" on registration page
     Then I should see "Terms of Use" Page
 
- @mytest
   Scenario: As a user, I should able to view - Open External Browser For Privacy Policy
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "Privacy Policy" on registration page

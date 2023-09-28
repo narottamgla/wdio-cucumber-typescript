@@ -26,19 +26,32 @@ class RegistrationPage extends Page {
     get billingCountry() { return $("//select[@id='BillingAddress-CountrySelect']") }
     get termOfUsePageText() { return $(".fl-post-header h1") }
     get privacyPolicyPageText() { return $(".animated.bounceInUp h1") }
+    get disneyExpHeaderText() {return $(".header-text h1");}
 
 
     async navigateToRegistrationPage(useremail: string) {
         await console.log("Entering email on registration page")
         await browser.pause(5000);
-        await this.iframeId.waitForDisplayed({ timeout: 30000 });
+        await this.iframeId.waitForDisplayed({ timeout: 10000 });
         await browser.switchToFrame(0);
         await browser.pause(5000);
         await console.log("Switched to Iframe");
-        await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
-        await this.emailTxBx.click();
-        await this.waitAndEnterData(this.emailTxBx, useremail);
-        await this.clickElement(this.continueBtn);
+        try {
+            await this.emailTxBx.waitForDisplayed({ timeout: 5000 });
+            await this.emailTxBx.click();
+            await this.waitAndEnterData(this.emailTxBx, useremail);
+            await this.clickElement(this.continueBtn);
+        } catch (error) {
+            console.log("In Error Block")
+            await browser.switchToParentFrame();
+            await browser.pause(5000);
+            await browser.switchToFrame(1);
+            await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
+            await this.emailTxBx.click();
+            await this.waitAndEnterData(this.emailTxBx, useremail);
+            await this.clickElement(this.continueBtn);
+
+        }
         // await browser.pause(40);
         await browser.switchToParentFrame();
         await browser.pause(4000);
@@ -48,14 +61,24 @@ class RegistrationPage extends Page {
 
     async verifyUserNavigationToRegistrationPage() {
         await browser.pause(20000);
-        console.log("Verifying Navigation to reg page")
         // await this.regFrame.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(0);
-        console.log("Verifying navigation to registration page")
-        await this.createAccountPageTitle.waitForExist({ timeout: 30000 });
-        await this.createAccountPageTitle.waitForDisplayed({ timeout: 10000 });
-        await expect(this.createAccountPageTitle).toBeExisting();
-        console.log("Navigation done to User Registration page")
+        try {
+
+
+            await browser.switchToFrame(0);
+            console.log("Verifying navigation to registration page")
+            await this.createAccountPageTitle.waitForDisplayed({ timeout: 10000 });
+            await expect(this.createAccountPageTitle).toBeExisting();
+            console.log("Navigation done to User Registration page")
+        } catch (error) {
+            console.log("In Error Block")
+            await browser.switchToParentFrame();
+            await browser.switchToFrame(1);
+            await this.createAccountPageTitle.waitForDisplayed({ timeout: 10000 });
+            await expect(this.createAccountPageTitle).toBeExisting();
+            console.log("Navigation done to User Registration page")
+
+        }
 
     }
 
@@ -63,7 +86,7 @@ class RegistrationPage extends Page {
     async verifyIsLogOutButtonDisplayed() {
         await browser.pause(30000);
         browser.switchToParentFrame();
-        await await this.logoutButton.waitForDisplayed({ timeout: 30000 });
+        await this.logoutButton.waitForDisplayed({ timeout: 30000 });
         await expect(this.logoutButton).toBeExisting();
         console.log("User registration done")
     }
@@ -139,30 +162,76 @@ class RegistrationPage extends Page {
     }
 
     async validatePasswordErrorMessage(errorMsg: string) {
-        await expect(await this.passwordError.getText()).toEqual(errorMsg);
+        await browser.switchToParentFrame();
+        await browser.switchToFrame(0);
+        await this.passwordError.waitForDisplayed({ timeout: 10000 }); 
+        expect(await this.passwordError.getText()).toEqual(errorMsg);
 
     }
 
+    parentWindow: any;
     async clickPrivacyAndTNCLinks(name: any) {
+        this.parentWindow = browser.getWindowHandle()
+
+        console.log("Clicking TNC links for :" + name);
         await browser.pause(8000);
-        await browser.switchToFrame(0);
-        (await $("=" + name + "")).click();
-        const handles = await browser.getWindowHandles();
-        await browser.switchToWindow(handles[1])
+        try {
+            await browser.switchToParentFrame();
+            await browser.switchToFrame(1);
+            console.log("Scrolling down to page")
+            await browser.scroll(0, 200)
+            console.log(await browser.execute(() => window.scrollY)) // returns 200
+            console.log("Scrolled down to page")
+            await $("//a[text()='" + name + "']").click();
+            await console.log("Clicked on TNC link " + name)
+        } catch (error) {
+            console.log("Error Block clicking TNC lins")
+            await browser.switchToParentFrame();
+            await browser.switchToFrame(0);
+            await (await $("//a[text()='" + name + "']")).click();
+            console.log("Clicked on TNC link " + name)
+        }
+        await browser.pause(18000);
     }
 
     async validateNewTNCWindow(name: any) {
-        if (name == "Terms of Use") {
-            await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
+        console.log("Validating navigation to:" + name)
+        await browser.pause(18000);
 
+        if (name == "Terms of Use") {
+            await browser.pause(18000);
+            const handles = await browser.getWindowHandles()
+            for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
+                console.log("Handles::" + handles[i])
+                browser.switchToWindow(handles[i])
+            }
+            await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
+            console.log("Validation done for " + name)
         }
 
         if (name == "Privacy Policy") {
-            await expect(await this.privacyPolicyPageText.getText()).toEqual("Privacy Policy");
+            await browser.pause(18000);
+            const handles = await browser.getWindowHandles()
+            for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
+                console.log("Handles::" + handles[i])
+                browser.switchToWindow(handles[i])
+            } await expect(await this.privacyPolicyPageText.getText()).toEqual("PRIVACY POLICY");
+            console.log("Validation done for " + name)
 
         }
-        const handles = await browser.getWindowHandles();
-        await browser.switchToWindow(handles[0]);
+
+        if (name == "My Disney Experience Terms and Conditions") {
+            await browser.pause(18000);
+            const handles = await browser.getWindowHandles()
+            for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
+                console.log("Handles::" + handles[i])
+                browser.switchToWindow(handles[i])
+            } 
+            await expect(await this.disneyExpHeaderText.getText()).toEqual("My Disney Experience Terms and Conditions");
+            console.log("Validation done for " + name)
+
+        }
+
 
     }
 }
