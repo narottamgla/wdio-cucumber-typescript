@@ -87,5 +87,5 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
   @mytest
   Scenario: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
-    When I click on Edit Button to change country as "Hungary" 
-    Then I should change country as "Hungary" on registration page
+    When I click on Edit Button to change country as "Malaysia" 
+    Then I should change country as "Malaysia" on registration page
