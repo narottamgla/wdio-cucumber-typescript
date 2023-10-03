@@ -2,13 +2,26 @@ import { Given, When,Then } from '@cucumber/cucumber';
 import RegistrationPage from '../../pages/registration.page';
 import LoginPage from '../../pages/login.page';
 import { generateRandomDataWithSpecialChar } from '../../utils/random';
-
+import { ur } from '@faker-js/faker';
 
 let randomEmail:any;
 
 Given(/^I open the disneyworld Registration page$/, async () => {
     await RegistrationPage.openApp();
 });
+
+Given(/^I am at the login page of (.+)$/, async (url) => {
+    await RegistrationPage.openAppWithUrl(url.replace(/^"|"$/g, ''));
+});
+
+Given(/^I login existing user with password as (.+) to (.+)$/, async (password:string,portalName:string) => {
+    await RegistrationPage.loginToOtherPortals(randomEmail,password.replace(/^"|"$/g, ''),portalName.replace(/^"|"$/g, ''));
+});
+ 
+Then(/^I should see terms & condition page of (.+)$/, async (url) => {
+    await RegistrationPage.validateTermsAndConditionPage(url);
+});
+
 
 When(/^I fill username as (.+) and click continue button$/, async (useremail) => {
     randomEmail = Math.random() * 3242424242 + useremail.replace(/^"|"$/g, '');

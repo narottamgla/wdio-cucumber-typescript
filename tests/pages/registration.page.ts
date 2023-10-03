@@ -1,8 +1,11 @@
+import { password } from "../data/random";
 import Page from "../pages/BasePage";
 
 class RegistrationPage extends Page {
 
+
     get emailTxBx() { return $("div input#InputIdentityFlowValue") }
+    get emailTxBx1() { return $("#InputIdentityFlowValue") }
     get continueBtn() { return $("[data-testid='BtnSubmit']") }
     get createAccountPageTitle() { return $('#Title span') }
     get iframeId() { return $("#oneid-iframe") }
@@ -12,6 +15,9 @@ class RegistrationPage extends Page {
     get firstNameTxBx() { return $("[data-testid='InputFirstName']") }
     get lastNameTxBx() { return $("[data-testid='InputLastName']") }
     get passwordTxBx() { return $("[data-testid='password-new']") }
+
+    get passwordTxBxPortal() { return $("[data-testid='InputPassword']") }
+
     get dateBirthTxBx() { return $("[data-testid='InputDOB']") }
 
     get billingAddress1() { return $("[data-testid='BillingAddress-Line1Input']") }
@@ -32,9 +38,13 @@ class RegistrationPage extends Page {
     get changeCountryDoneButton() { return $("[data-testid='BtnSubmit']") }
     get countryNameLabelOnRegPage() { return $("#UpdateLegalCountry") };
 
+    get termsAndConditionOnLogin() { return $("[data-testid='DLR-NGE-TOU']") }
+    get termsAndConditionOnLoginCruise() { return $("[data-testid='DCL-NGE-TOU-text']") }
+    //disneyland
 
+    get SignInRegister() { return $("(//*[contains(@class, 'accountContainer')])[1]") }
 
-    async navigateToRegistrationPage(useremail: string) {
+    async navigateToRegistrationPage(useremail: any) {
         await console.log("Entering email on registration page")
         await browser.pause(5000);
         await this.iframeId.waitForDisplayed({ timeout: 10000 });
@@ -44,7 +54,7 @@ class RegistrationPage extends Page {
         try {
             await this.emailTxBx.waitForDisplayed({ timeout: 5000 });
             await this.emailTxBx.click();
-            await this.waitAndEnterData(this.emailTxBx, useremail);
+            await this.emailTxBx.sendKeys(useremail);
             await this.clickElement(this.continueBtn);
         } catch (error) {
             console.log("In Error Block")
@@ -63,6 +73,53 @@ class RegistrationPage extends Page {
         await console.log("Entered email on registration page done")
     }
 
+    async navigateToTermsAndConditionPage(useremail: string, password: string) {
+        await console.log("Entering email on registration page")
+        for (let i = 0; i < 4; i++) {
+            try {
+                await browser.pause(1000);
+                await browser.switchToParentFrame();
+                await this.iframeId.waitForDisplayed({ timeout: 5000 });
+                await browser.pause(1000);
+                await browser.switchToFrame(i);
+                await browser.pause(1000);
+                await console.log("Switched to Iframe: " + i);
+                await this.emailTxBx1.waitForDisplayed({ timeout: 5000 });
+                // await this.emailTxBx1.click();
+                await console.log("Clicked email Text Box")
+                await (await this.emailTxBx1).setValue(useremail);
+                await console.log("Entered value to email Text Box")
+                await this.clickElement(this.continueBtn);
+                console.log("switched with frame id:" + i)
+                await browser.pause(10000);
+                break;
+
+            } catch (error) {
+                console.log("In Error Block of Email Text Box: " + error)
+            }
+        }
+
+        console.log("Entered email on registration page done")
+
+        for (let i = 0; i < 5; i++) {
+            try {
+                console.log("Entering password ..");
+                await browser.switchToParentFrame();
+                await browser.pause(4000);
+                await browser.switchToFrame(i)
+                // await this.passwordTxBx.setValue(password);
+                await this.passwordTxBxPortal.setValue("disney123");
+                await this.continueBtn.click();
+                await browser.pause(4000);
+                console.log("Entered password and clicked continue button..");
+                break;
+            }
+            catch (error) {
+                console.log("Error occurred while entering password: " + i)
+
+            }
+        }
+    }
 
     async verifyUserNavigationToRegistrationPage() {
         await browser.pause(20000);
@@ -83,6 +140,39 @@ class RegistrationPage extends Page {
             await expect(this.createAccountPageTitle).toBeExisting();
             console.log("Navigation done to User Registration page")
 
+        }
+    }
+
+    async validateTermsAndConditionPage(portalName: string) {
+        if (portalName == "disneyland") {
+            await browser.pause(30000);
+            browser.switchToParentFrame();
+            browser.switchToFrame(0);
+            await this.termsAndConditionOnLogin.waitForDisplayed({ timeout: 30000 });
+            await this.termsAndConditionOnLogin.click();
+        }
+
+        if (portalName == "disneycruise") {
+            await browser.pause(30000);
+            browser.switchToParentFrame();
+            browser.switchToFrame(0);
+            await this.termsAndConditionOnLoginCruise.waitForDisplayed({ timeout: 30000 });
+            await this.termsAndConditionOnLoginCruise.click();
+        }
+
+    }
+
+    async loginToOtherPortals(randomEmail: any, password: string, portalName: string) {
+        if (portalName == "disneyland") {
+            await this.SignInRegister.waitForDisplayed({ timeout: 30000 });
+            await this.clickElement(this.SignInRegister);
+            await this.navigateToTermsAndConditionPage(randomEmail, password);
+        }
+
+        if (portalName == "disneycruise") {
+            await this.SignInRegister.waitForDisplayed({ timeout: 30000 });
+            await this.clickElement(this.SignInRegister);
+            await this.navigateToTermsAndConditionPage(randomEmail, password);
         }
 
     }
@@ -166,6 +256,12 @@ class RegistrationPage extends Page {
         console.log("Opened registration page")
     }
 
+    async openAppWithUrl(url: string) {
+        await super.open(url);
+        await browser.setTimeout({ 'pageLoad': 10000 })
+        console.log("Opened registration page")
+    }
+
     async validatePasswordErrorMessage(errorMsg: string) {
         await browser.switchToParentFrame();
         await browser.switchToFrame(0);
@@ -239,7 +335,7 @@ class RegistrationPage extends Page {
     }
 
     async editCountry(country: string) {
-        console.log("Changing country as country: "+ country)
+        console.log("Changing country as country: " + country)
         await this.waitAndclick(this.editCountryButton);
         await browser.pause(8000);
         await browser.switchToParentFrame();

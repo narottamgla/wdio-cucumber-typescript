@@ -40,6 +40,21 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
       | password | errorMsg               |
       | ""       | We couldn't log you in |
 
+@mytest
+  Scenario: As a user, I should able to log into the DisneyLand and see update account Terms & condition
+    Given I am at the login page of "https://disneyland.disney.go.com/"
+    When I login existing user with password as "disney123" to "disneyland"
+    Then I should see terms & condition page of "disneyland"
+    Then I should see a home page of disney world
+
+@mytest
+  Scenario: As a user, I should able to log into the DisneyCruise and see update account Terms & condition
+    Given I am at the login page of "https://disneycruise.disney.go.com/"
+    When I login existing user with password as "disney123"  to "disneycruise"
+    Then I should see terms & condition page of "disneycruise"
+    Then I should see a home page of disney world
+
+
 
   Scenario Outline: As a valid user, I should able to <country> <password> register to disney world with 256 chracter password
     When I fill username as <useremail> and click continue button
@@ -84,7 +99,6 @@ Scenario Outline: As a user, I should not log into the Disney world with Bad pas
     When I click on "My Disney Experience Terms and Conditions" on registration page
     Then I should see "My Disney Experience Terms and Conditions" Page
 
-  @mytest
   Scenario: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on Edit Button to change country as "Malaysia" 
