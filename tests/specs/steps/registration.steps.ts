@@ -78,6 +78,9 @@ Then(/^I should see (.+) Page$/, async (name) => {
     await RegistrationPage.validateNewTNCWindow(name.replace(/^"|"$/g, ''));
 });
 
+When(/^I accepts all the consents for malaysiya$/, async () => {
+    await RegistrationPage.selectConsentsForMalaysia();
+});
 
 When(/^I selects notification consent as (.+) and disney world consent as (.+)$/, async (consent1: string, consent: string) => {
     await RegistrationPage.selectConsents();

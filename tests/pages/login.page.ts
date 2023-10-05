@@ -46,10 +46,6 @@ class LoginPage extends Page {
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
         await browser.switchToFrame(1);
         await browser.pause(2000);
-        }catch(error){
-        console.log("Error while switching to Child frame")
-
-        }
         await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
         await this.inputUsername.click();
         await this.waitAndEnterData(this.inputUsername, username);
@@ -57,6 +53,22 @@ class LoginPage extends Page {
         await this.waitAndEnterData(this.inputPassword, password);
         await this.waitAndclick(this.btnSubmit);
         await browser.pause(18000);
+
+        }catch(error){
+        console.log("Error while switching to Child frame")
+
+        await browser.switchToParentFrame();
+        await browser.switchToFrame(0);
+        await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
+        await this.inputUsername.click();
+        await this.waitAndEnterData(this.inputUsername, username);
+        await this.clickElement(this.continueBtn);
+        await this.waitAndEnterData(this.inputPassword, password);
+        await this.waitAndclick(this.btnSubmit);
+        await browser.pause(18000);
+
+
+        }
     }
 
     async validateLogin() {

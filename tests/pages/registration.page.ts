@@ -26,6 +26,15 @@ class RegistrationPage extends Page {
     get regisonTxBx() { return $("//select[@id='BillingAddress-RegionSelect']") }
     get postCodeTxBx() { return $("[data-testid='BillingAddress-PostalCode']") }
     get disneyTNC() { return $("[data-testid='WDW-NGE2-TOU']") }
+    get disneyTNC1() { return $("[data-testid='GTOU']") }
+
+    get disneyTNC2() { return $("[data-testid='GTOU-text']") }
+
+    get disneyTNC3() { return $("[data-testid='ppv2_pp-supplement-my']") }
+
+    get disneyTNC4() { return $("[data-testid='DISNEY-EU-SHAREINFO-COOKIE-ACCEPT-text']") }
+
+
     get createUserButton() { return $("//button[@id='BtnSubmit']") }
     get logoutButton() { return $("(*//a[@href='/authentication/logout/'])[1]") }
     get passwordError() { return $("span[data-testid='password-new-error']") }
@@ -235,6 +244,17 @@ class RegistrationPage extends Page {
 
         await browser.pause(8000);
         await browser.pause(8000);
+    }
+
+
+    async selectConsentsForMalaysia() {
+        await this.disneyTNC.click();
+        await this.disneyTNC1.click();
+        await this.disneyTNC2.click();
+        await this.disneyTNC3.click();
+        await this.disneyTNC4.click();
+
+
     }
 
 
