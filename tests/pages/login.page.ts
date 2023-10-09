@@ -14,8 +14,6 @@ class LoginPage extends Page {
     get fnfLink() { return $("//a[contains(@name,'&lid=WDW_Footer_MDX_FamilyFriends')]") }
     get loginErrorMsg() { return $("#InputPassword-error") }
 
-
-
     async switchToFrame() {
         await browser.switchToFrame(0);
         await console.log("Switched to frame")
@@ -44,7 +42,7 @@ class LoginPage extends Page {
         }
         try{
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(1);
+        await browser.switchToFrame(0);
         await browser.pause(2000);
         await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
         await this.inputUsername.click();
@@ -56,9 +54,8 @@ class LoginPage extends Page {
 
         }catch(error){
         console.log("Error while switching to Child frame")
-
         await browser.switchToParentFrame();
-        await browser.switchToFrame(0);
+        await browser.switchToFrame(1);
         await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
         await this.inputUsername.click();
         await this.waitAndEnterData(this.inputUsername, username);
@@ -66,8 +63,6 @@ class LoginPage extends Page {
         await this.waitAndEnterData(this.inputPassword, password);
         await this.waitAndclick(this.btnSubmit);
         await browser.pause(18000);
-
-
         }
     }
 
@@ -106,7 +101,7 @@ class LoginPage extends Page {
         await browser.pause(18000);
         /// await browser.switchToParentFrame();
         await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
-        await expect(this.loginErrorMsg).toBeExisting();
+        await expect( this.loginErrorMsg.isDisplayed()).toBe(true);
     }
 
     async validateLoginErrorMessage(errorMsg: string) {

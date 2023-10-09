@@ -55,28 +55,28 @@ class RegistrationPage extends Page {
 
     async navigateToRegistrationPage(useremail: any) {
         await console.log("Entering email on registration page")
-        await browser.pause(5000);
-        await this.iframeId.waitForDisplayed({ timeout: 10000 });
-        await browser.switchToFrame(0);
-        await browser.pause(5000);
-        await console.log("Switched to Iframe");
-        try {
-            await this.emailTxBx.waitForDisplayed({ timeout: 5000 });
-            await this.emailTxBx.click();
-            await this.emailTxBx.sendKeys(useremail);
-            await this.clickElement(this.continueBtn);
-        } catch (error) {
-            console.log("In Error Block")
-            await browser.switchToParentFrame();
-            await browser.pause(5000);
-            await browser.switchToFrame(1);
-            await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
-            await this.emailTxBx.click();
-            await this.waitAndEnterData(this.emailTxBx, useremail);
-            await this.clickElement(this.continueBtn);
+        for (let i = 0; i < 3; i++) {
 
+            try {
+                console.log("Entering user registered email")
+                await browser.pause(10000);
+                await this.iframeId.waitForDisplayed({ timeout: 10000 });
+              //  await browser.switchToParentFrame();
+                await browser.pause(5000);
+                await browser.switchToFrame(i);
+                await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
+                await this.emailTxBx.click();
+                await this.waitAndEnterData(this.emailTxBx, useremail);
+                await this.clickElement(this.continueBtn);
+                await console.log("Entered email on registration page done with Frame : " + i)
+                break;
+
+            } catch (error) {
+                await browser.switchToParentFrame();
+                console.log("Error occurred with frame Id: " + i)
+            }
         }
-        // await browser.pause(40);
+        await browser.pause(14000);
         await browser.switchToParentFrame();
         await browser.pause(4000);
         await console.log("Entered email on registration page done")
@@ -86,12 +86,12 @@ class RegistrationPage extends Page {
         await console.log("Entering email on registration page")
         for (let i = 0; i < 4; i++) {
             try {
-                await browser.pause(1000);
+                await browser.pause(5000);
                 await browser.switchToParentFrame();
                 await this.iframeId.waitForDisplayed({ timeout: 5000 });
-                await browser.pause(1000);
+                await browser.pause(2000);
                 await browser.switchToFrame(i);
-                await browser.pause(1000);
+                await browser.pause(2000);
                 await console.log("Switched to Iframe: " + i);
                 await this.emailTxBx1.waitForDisplayed({ timeout: 5000 });
                 // await this.emailTxBx1.click();
@@ -100,7 +100,7 @@ class RegistrationPage extends Page {
                 await console.log("Entered value to email Text Box")
                 await this.clickElement(this.continueBtn);
                 console.log("switched with frame id:" + i)
-                await browser.pause(10000);
+                await browser.pause(5000);
                 break;
 
             } catch (error) {
@@ -298,74 +298,109 @@ class RegistrationPage extends Page {
         await browser.pause(8000);
         try {
             await browser.switchToParentFrame();
+            await browser.pause(8000);
             await browser.switchToFrame(1);
             console.log("Scrolling down to page")
-            await browser.scroll(0, 200)
+            await browser.scroll(0, 600)
             console.log(await browser.execute(() => window.scrollY)) // returns 200
             console.log("Scrolled down to page")
+            await browser.pause(4000);
             await $("//a[text()='" + name + "']").click();
             await console.log("Clicked on TNC link " + name)
         } catch (error) {
-            console.log("Error Block clicking TNC lins")
+            console.log("Error Block clicking TNC links")
             await browser.switchToParentFrame();
+            await browser.pause(8000);
             await browser.switchToFrame(0);
+            await browser.pause(4000);
             await (await $("//a[text()='" + name + "']")).click();
             console.log("Clicked on TNC link " + name)
         }
-        await browser.pause(18000);
+        await browser.pause(8000);
     }
 
     async validateNewTNCWindow(name: any) {
         console.log("Validating navigation to:" + name)
-        await browser.pause(18000);
 
         if (name == "Terms of Use") {
-            await browser.pause(18000);
+            await browser.pause(8000);
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-                browser.switchToWindow(handles[i])
+               await browser.switchToWindow(handles[i])
             }
             await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
             console.log("Validation done for " + name)
+
         }
 
         if (name == "Privacy Policy") {
-            await browser.pause(18000);
+            await browser.pause(8000);
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-                browser.switchToWindow(handles[i])
-            } await expect(await this.privacyPolicyPageText.getText()).toEqual("PRIVACY POLICY");
+               await browser.switchToWindow(handles[i])
+            } 
+            await expect(await this.privacyPolicyPageText.getText()).toEqual("PRIVACY POLICY");
             console.log("Validation done for " + name)
 
         }
 
         if (name == "My Disney Experience Terms and Conditions") {
-            await browser.pause(18000);
+            await browser.pause(8000);
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
                 browser.switchToWindow(handles[i])
             }
+            await browser.pause(8000);
             await expect(await this.disneyExpHeaderText.getText()).toEqual("My Disney Experience Terms and Conditions");
             console.log("Validation done for " + name)
 
         }
+        await browser.closeWindow();
+     //   await browser.switchToWindow(this.parentWindow)
+
     }
 
     async editCountry(country: string) {
         console.log("Changing country as country: " + country)
-        await this.waitAndclick(this.editCountryButton);
+        console.log("Scrolling down to change country")
+        await browser.scroll(0, 1200)
+        try{
         await browser.pause(8000);
         await browser.switchToParentFrame();
-        await browser.pause(18000);
+        await browser.pause(8000);
         await browser.switchToFrame(1);
+        await this.waitAndclick(this.editCountryButton);
+        }catch(error){
+            console.log("Error while clicking edit country and retrying ")
+            await browser.switchToParentFrame();
+            await browser.pause(8000);
+            await browser.switchToFrame(0);
+            await this.waitAndclick(this.editCountryButton);
+        }
+        try{
+        await browser.pause(8000);
+        await browser.switchToParentFrame();
+        await browser.pause(8000);
+        await browser.switchToFrame(0);
         await browser.pause(8000);
         await this.changeCountryDropdown.click();
         await this.selectDropdownByText(this.changeCountryDropdown, country);
         await this.changeCountryDoneButton.click();
         await browser.switchToParentFrame();
+    }catch(error){
+        await browser.switchToParentFrame();
+        await browser.pause(8000);
+        await browser.switchToFrame(1);
+        console.log("Retrying as Error occurred while Changing country as country: " + country)
+        await browser.pause(1000);
+        await this.changeCountryDropdown.click();
+        await this.selectDropdownByText(this.changeCountryDropdown, country);
+        await this.changeCountryDoneButton.click();
+        await browser.switchToParentFrame();
+    }
 
     }
 

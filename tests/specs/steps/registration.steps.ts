@@ -53,7 +53,7 @@ When(/^I enter Password as (.+) and Birthdate as (.+)$/, async (password, dob) =
 
 When(/^I enter Password with length (.+) and Birthdate as (.+)$/, async (passwordlenth, dob) => {
     await browser.pause(2000);
-    let password = generateRandomDataWithSpecialChar(257);
+    let password = generateRandomDataWithSpecialChar(passwordlenth);
     await RegistrationPage.enterPasswordDOB(password, dob);
 });
 
