@@ -4,7 +4,6 @@ Feature: Registration feature for Disney world
 
     Given I open the disneyworld Registration page
 
-
 @mytest
   Scenario Outline: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
@@ -36,7 +35,7 @@ Feature: Registration feature for Disney world
   #| tst3211235@mailinator.com | Miss   | sfname    | slname   | disney123 | 01-01-1989 | Spain          | 45, 3º, 2ª Ave     | Santa Mari       | Madrid  | Madrid     | 28012      |
   #| tst3211236@mailinator.com | Miss   | arfname   | arlname  | disney123 | 01-01-1989 | Argentina      | Humberto Primo 630 | Corboda          | Corboda | Corboda    | 14003      |
 
-
+@mytest
   Scenario Outline: As a valid user, I should able to <country> <password> register to disney world
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -65,7 +64,7 @@ Feature: Registration feature for Disney world
   #| tst3211235@mailinator.com | Miss   | sfname    | slname   | disney123 | 01-01-1989 | Spain          | 45, 3º, 2ª Ave     | Santa Mari       | Madrid  | Madrid     | 28012      |
   #| tst3211236@mailinator.com | Miss   | arfname   | arlname  | disney123 | 01-01-1989 | Argentina      | Humberto Primo 630 | Corboda          | Corboda | Corboda    | 14003      |
 
-
+@mytest
   Scenario Outline: As a user, I should not log into the Disney world with Bad password
     Given I am on the login page
     When I login with existing user with password as "disney123"
@@ -82,6 +81,7 @@ Feature: Registration feature for Disney world
       | password | errorMsg               |
       | ""       | We couldn't log you in |
 
+@mytest
   Scenario Outline: As a valid user, I should able to <country> <password> register to disney world with 256 chracter password
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -95,6 +95,7 @@ Feature: Registration feature for Disney world
       | useremail                 | prefix | firstname | lastname    | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname    | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
+@mytest
   Scenario Outline: As a valid user, I should able see password error message if password length 257 character
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -114,6 +115,7 @@ Feature: Registration feature for Disney world
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "Terms of Use" on registration page
     Then I should see "Terms of Use" Page
+
 
 @mytest
   Scenario: As a user, I should able to view - Open External Browser For Privacy Policy

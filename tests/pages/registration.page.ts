@@ -55,6 +55,11 @@ class RegistrationPage extends Page {
 
     async navigateToRegistrationPage(useremail: any) {
         await console.log("Entering email on registration page")
+        try {
+          await browser.switchToParentFrame(); 
+        } catch (error) {
+            
+        }
         for (let i = 0; i < 3; i++) {
 
             try {
@@ -277,7 +282,7 @@ class RegistrationPage extends Page {
     }
 
     async openAppWithUrl(url: string) {
-        await super.open(url);
+        await browser.newWindow(url);
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
     }
@@ -296,17 +301,18 @@ class RegistrationPage extends Page {
 
         console.log("Clicking TNC links for :" + name);
         await browser.pause(8000);
+        await browser.scroll(0, 1300)
         try {
-            await browser.switchToParentFrame();
+            await (await $("//a[text()='" + name + "']")).click();
+         /** await browser.switchToParentFrame();
             await browser.pause(8000);
-            await browser.switchToFrame(1);
+            await browser.switchToFrame(0);
             console.log("Scrolling down to page")
-            await browser.scroll(0, 600)
             console.log(await browser.execute(() => window.scrollY)) // returns 200
             console.log("Scrolled down to page")
             await browser.pause(4000);
             await $("//a[text()='" + name + "']").click();
-            await console.log("Clicked on TNC link " + name)
+            await console.log("Clicked on TNC link " + name)**/
         } catch (error) {
             console.log("Error Block clicking TNC links")
             await browser.switchToParentFrame();
@@ -331,7 +337,8 @@ class RegistrationPage extends Page {
             }
             await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
             console.log("Validation done for " + name)
-
+            await browser.closeWindow();
+            await browser.switchToWindow(handles[0]);
         }
 
         if (name == "Privacy Policy") {
@@ -343,6 +350,8 @@ class RegistrationPage extends Page {
             } 
             await expect(await this.privacyPolicyPageText.getText()).toEqual("PRIVACY POLICY");
             console.log("Validation done for " + name)
+            await browser.closeWindow();
+            await browser.switchToWindow(handles[0]);
 
         }
 
@@ -351,15 +360,15 @@ class RegistrationPage extends Page {
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-                browser.switchToWindow(handles[i])
+               await browser.switchToWindow(handles[i])
             }
             await browser.pause(8000);
             await expect(await this.disneyExpHeaderText.getText()).toEqual("My Disney Experience Terms and Conditions");
             console.log("Validation done for " + name)
+            await browser.closeWindow();
+            await browser.switchToWindow(handles[0]);
 
         }
-        await browser.closeWindow();
-     //   await browser.switchToWindow(this.parentWindow)
 
     }
 
