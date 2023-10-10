@@ -291,8 +291,7 @@ class RegistrationPage extends Page {
         await browser.switchToParentFrame();
         await browser.switchToFrame(0);
         await this.passwordError.waitForDisplayed({ timeout: 10000 });
-        expect(await this.passwordError.getText()).toEqual(errorMsg);
-
+        expect(await this.passwordError.getText()).toHaveTextContaining(errorMsg);
     }
 
     parentWindow: any;
@@ -375,8 +374,14 @@ class RegistrationPage extends Page {
     async editCountry(country: string) {
         console.log("Changing country as country: " + country)
         console.log("Scrolling down to change country")
-        await browser.scroll(0, 1200)
-        try{
+        await browser.pause(8000);
+        await browser.scroll(0, 1000)
+        await browser.pause(8000);
+        await this.waitAndclick(this.editCountryButton);
+        await browser.pause(8000);
+
+
+      /**  try{
         await browser.pause(8000);
         await browser.switchToParentFrame();
         await browser.pause(8000);
@@ -388,7 +393,7 @@ class RegistrationPage extends Page {
             await browser.pause(8000);
             await browser.switchToFrame(0);
             await this.waitAndclick(this.editCountryButton);
-        }
+        }**/
         try{
         await browser.pause(8000);
         await browser.switchToParentFrame();

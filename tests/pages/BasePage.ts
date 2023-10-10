@@ -17,7 +17,7 @@ export default class BasePage {
     }
 
     protected async waitAndclick(element: WebElement, waitTime?: number) {
-        await element.waitForClickable({ timeout: waitTime ? waitTime : 10000 })
+        await element.waitForClickable({ timeout: waitTime ? waitTime : 10000 ,timeoutMsg: "Timeout while clicking"})
         await element.click()
         logStep(`clicked on Element: ${await element.selector}`);
     }

@@ -106,7 +106,7 @@ class LoginPage extends Page {
 
     async validateLoginErrorMessage(errorMsg: string) {
         await browser.pause(18000);
-        /// await browser.switchToParentFrame();
+        await browser.switchToFrame(null);
         await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
         await expect((await this.loginErrorMsg.getText()).indexOf(errorMsg) > -1).toBe(true);
     }

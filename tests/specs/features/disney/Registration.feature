@@ -4,7 +4,6 @@ Feature: Registration feature for Disney world
 
     Given I open the disneyworld Registration page
 
-@mytest
   Scenario Outline: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on Edit Button to change country as "Malaysia"
@@ -27,6 +26,7 @@ Feature: Registration feature for Disney world
     When I login existing user with password as "disney123"  to "disneycruise"
     Then I should see terms & condition page of "disneycruise"
     Then I should see a home page of disney world
+
     Examples:
       | useremail                 | prefix | firstname | lastname | birthdate  | country  | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | Malaysia | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
@@ -36,7 +36,7 @@ Feature: Registration feature for Disney world
   #| tst3211236@mailinator.com | Miss   | arfname   | arlname  | disney123 | 01-01-1989 | Argentina      | Humberto Primo 630 | Corboda          | Corboda | Corboda    | 14003      |
 
 @mytest
-  Scenario Outline: As a valid user, I should able to <country> <password> register to disney world
+  Scenario Outline: As a valid user, I should able to register to disney world with <country> <password>
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
     And I enter Password as <password> and Birthdate as <birthdate>
@@ -95,7 +95,6 @@ Feature: Registration feature for Disney world
       | useremail                 | prefix | firstname | lastname    | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname    | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
-@mytest
   Scenario Outline: As a valid user, I should able see password error message if password length 257 character
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -110,20 +109,16 @@ Feature: Registration feature for Disney world
       | tst3211234@mailinator.com | Miss   | afname    | alname   | disney123 | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
 
-@mytest
   Scenario: As a user, I should able to view - Open External Browser For Terms of Use
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "Terms of Use" on registration page
     Then I should see "Terms of Use" Page
 
-
-@mytest
   Scenario: As a user, I should able to view - Open External Browser For Privacy Policy
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "Privacy Policy" on registration page
     Then I should see "Privacy Policy" Page
 
-@mytest
   Scenario: As a user, I should able to view - My Disney Experience Terms and Conditions.
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on "My Disney Experience Terms and Conditions" on registration page
