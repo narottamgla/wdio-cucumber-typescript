@@ -35,7 +35,7 @@ class LoginPage extends Page {
     async loginExistingUser(username: string, password: string) {
         try {
             await browser.pause(8000);
-            await browser.switchToParentFrame();
+            await browser.switchToFrame(null);
             await browser.pause(8000);
         } catch (error) {
             console.log("Error while switching to parent frame")
