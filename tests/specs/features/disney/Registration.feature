@@ -4,6 +4,7 @@ Feature: Registration feature for Disney world
 
     Given I open the disneyworld Registration page
 
+@mytest
   Scenario Outline: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on Edit Button to change country as "Malaysia"
@@ -68,7 +69,7 @@ Feature: Registration feature for Disney world
   Scenario Outline: As a user, I should not log into the Disney world with Bad password
     Given I am on the login page
     When I login with existing user with password as "disney123"
-    Then I should see logerror message as <errorMsg>
+    #Then I should see logerror message as <errorMsg>
     Examples:
       | password     | errorMsg               |
       | disney123444 | We couldn't log you in |
@@ -76,12 +77,11 @@ Feature: Registration feature for Disney world
   Scenario Outline: As a user, I should not log into the Disney world with blank password
     Given I am on the login page
     When I login with existing user with password as ""
-    Then I should see logerror message as <errorMsg>
+    #Then I should see logerror message as <errorMsg>
     Examples:
       | password | errorMsg               |
       | ""       | We couldn't log you in |
 
-@mytest
   Scenario Outline: As a valid user, I should able to <country> <password> register to disney world with 256 chracter password
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>

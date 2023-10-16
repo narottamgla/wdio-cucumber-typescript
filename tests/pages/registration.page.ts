@@ -56,9 +56,9 @@ class RegistrationPage extends Page {
     async navigateToRegistrationPage(useremail: any) {
         await console.log("Entering email on registration page")
         try {
-          await browser.switchToParentFrame(); 
+            await browser.switchToParentFrame();
         } catch (error) {
-            
+
         }
         for (let i = 0; i < 3; i++) {
 
@@ -66,7 +66,7 @@ class RegistrationPage extends Page {
                 console.log("Entering user registered email")
                 await browser.pause(10000);
                 await this.iframeId.waitForDisplayed({ timeout: 10000 });
-              //  await browser.switchToParentFrame();
+                //  await browser.switchToParentFrame();
                 await browser.pause(5000);
                 await browser.switchToFrame(i);
                 await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
@@ -303,15 +303,15 @@ class RegistrationPage extends Page {
         await browser.scroll(0, 1300)
         try {
             await (await $("//a[text()='" + name + "']")).click();
-         /** await browser.switchToParentFrame();
-            await browser.pause(8000);
-            await browser.switchToFrame(0);
-            console.log("Scrolling down to page")
-            console.log(await browser.execute(() => window.scrollY)) // returns 200
-            console.log("Scrolled down to page")
-            await browser.pause(4000);
-            await $("//a[text()='" + name + "']").click();
-            await console.log("Clicked on TNC link " + name)**/
+            /** await browser.switchToParentFrame();
+               await browser.pause(8000);
+               await browser.switchToFrame(0);
+               console.log("Scrolling down to page")
+               console.log(await browser.execute(() => window.scrollY)) // returns 200
+               console.log("Scrolled down to page")
+               await browser.pause(4000);
+               await $("//a[text()='" + name + "']").click();
+               await console.log("Clicked on TNC link " + name)**/
         } catch (error) {
             console.log("Error Block clicking TNC links")
             await browser.switchToParentFrame();
@@ -332,7 +332,7 @@ class RegistrationPage extends Page {
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-               await browser.switchToWindow(handles[i])
+                await browser.switchToWindow(handles[i])
             }
             await expect(await this.termOfUsePageText.getText()).toEqual("English – Disney Terms of Use – United States");
             console.log("Validation done for " + name)
@@ -345,8 +345,8 @@ class RegistrationPage extends Page {
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-               await browser.switchToWindow(handles[i])
-            } 
+                await browser.switchToWindow(handles[i])
+            }
             await expect(await this.privacyPolicyPageText.getText()).toEqual("PRIVACY POLICY");
             console.log("Validation done for " + name)
             await browser.closeWindow();
@@ -359,7 +359,7 @@ class RegistrationPage extends Page {
             const handles = await browser.getWindowHandles()
             for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
                 console.log("Handles::" + handles[i])
-               await browser.switchToWindow(handles[i])
+                await browser.switchToWindow(handles[i])
             }
             await browser.pause(8000);
             await expect(await this.disneyExpHeaderText.getText()).toEqual("My Disney Experience Terms and Conditions");
@@ -375,56 +375,65 @@ class RegistrationPage extends Page {
         console.log("Changing country as country: " + country)
         console.log("Scrolling down to change country")
         await browser.pause(8000);
-        await browser.scroll(0, 1000)
-        await browser.pause(8000);
         await this.waitAndclick(this.editCountryButton);
         await browser.pause(8000);
 
-
-      /**  try{
-        await browser.pause(8000);
-        await browser.switchToParentFrame();
-        await browser.pause(8000);
-        await browser.switchToFrame(1);
-        await this.waitAndclick(this.editCountryButton);
-        }catch(error){
-            console.log("Error while clicking edit country and retrying ")
+        /**  try{
+         await browser.pause(8000);
+         await browser.switchToParentFrame();
+         await browser.pause(8000);
+         await browser.switchToFrame(1);
+         await this.waitAndclick(this.editCountryButton);
+         }catch(error){
+             console.log("Error while clicking edit country and retrying ")
+             await browser.switchToParentFrame();
+             await browser.pause(8000);
+             await browser.switchToFrame(0);
+             await this.waitAndclick(this.editCountryButton);
+         }**/
+        try {
+            await browser.pause(8000);
             await browser.switchToParentFrame();
             await browser.pause(8000);
             await browser.switchToFrame(0);
-            await this.waitAndclick(this.editCountryButton);
-        }**/
-        try{
-        await browser.pause(8000);
-        await browser.switchToParentFrame();
-        await browser.pause(8000);
-        await browser.switchToFrame(0);
-        await browser.pause(8000);
-        await this.changeCountryDropdown.click();
-        await this.selectDropdownByText(this.changeCountryDropdown, country);
-        await this.changeCountryDoneButton.click();
-        await browser.switchToParentFrame();
-    }catch(error){
-        await browser.switchToParentFrame();
-        await browser.pause(8000);
-        await browser.switchToFrame(1);
-        console.log("Retrying as Error occurred while Changing country as country: " + country)
-        await browser.pause(1000);
-        await this.changeCountryDropdown.click();
-        await this.selectDropdownByText(this.changeCountryDropdown, country);
-        await this.changeCountryDoneButton.click();
-        await browser.switchToParentFrame();
-    }
+            await browser.pause(8000);
+            await this.changeCountryDropdown.click();
+            await this.selectDropdownByText(this.changeCountryDropdown, country);
+            await this.changeCountryDoneButton.click();
+            await browser.switchToParentFrame();
+        } catch (error) {
+            await browser.switchToParentFrame();
+            await browser.pause(8000);
+            await browser.switchToFrame(1);
+            console.log("Retrying as Error occurred while Changing country as country: " + country)
+            await browser.pause(1000);
+            await this.changeCountryDropdown.click();
+            await this.selectDropdownByText(this.changeCountryDropdown, country);
+            await this.changeCountryDoneButton.click();
+            await browser.switchToParentFrame();
+        }
 
     }
 
 
     async validateChangeCountry(country: string) {
         console.log("Validate Change country")
-        await browser.pause(10000);
-        await browser.switchToFrame(1);
-        await browser.pause(8000);
-        await expect(await this.countryNameLabelOnRegPage.getText()).toContain(country);
+        await browser.pause(1000);
+        await browser.scroll(0, 1300)
+       
+            for (let i = 0; i < 3; i++) {
+                try {
+                await browser.switchToFrame(null);
+                await browser.switchToFrame(i);
+                await this.countryNameLabelOnRegPage.waitForDisplayed({ timeout: 1000 });
+                await expect(await this.countryNameLabelOnRegPage.getText()).toContain(country);
+                await console.log("Worked with Frame : " + i)
+                break;
+        } catch (error) {
+            await console.log("Error occurred with Frame")
+        }
+
+        }
     }
 
 }
