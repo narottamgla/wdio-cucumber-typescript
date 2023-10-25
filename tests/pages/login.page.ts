@@ -20,20 +20,37 @@ class LoginPage extends Page {
     }
 
     async login(username: string, password: string) {
+        try{
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(1);
-        await browser.pause(2);
-        await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
+        await browser.switchToFrame(0);
+        await browser.pause(2000);
+        await (await this.inputUsername).waitForDisplayed({ timeout: 50000 });
         await this.inputUsername.click();
         await this.waitAndEnterData(this.inputUsername, username);
         await this.clickElement(this.continueBtn);
         await this.waitAndEnterData(this.inputPassword, password);
         await this.waitAndclick(this.btnSubmit);
         await browser.pause(18000);
+        }catch(error){
+            console.log("Error occured with Frame-0, Trying with frame-1");
+            await browser.switchToParentFrame();
+            await this.iframeId.waitForDisplayed({ timeout: 30000 });
+            await browser.switchToFrame(1);
+            await browser.pause(2000);
+            await (await this.inputUsername).waitForDisplayed({ timeout: 50000 });
+            await this.inputUsername.click();
+            await this.waitAndEnterData(this.inputUsername, username);
+            await this.clickElement(this.continueBtn);
+            await this.waitAndEnterData(this.inputPassword, password);
+            await this.waitAndclick(this.btnSubmit);
+            await browser.pause(18000);
+     
+        }
     }
 
     async loginExistingUser(username: string, password: string) {
         try {
+            await browser.switchToFrame(null);
             await browser.pause(8000);
             await browser.switchToParentFrame();
             await browser.pause(8000);

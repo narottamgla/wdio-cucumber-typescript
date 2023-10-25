@@ -1,37 +1,28 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import LoginPage from "../../pages/login.page";
+import PaymentMethod from '../../pages/paymentmethod';
 
 
-Given(/^I am on the login page$/, async () => {
-    await LoginPage.openApp()
 
-});
-
-When(/^I login with (.+) and (.+)$/, async (username, password) => {
-    await LoginPage.login(username, password)
-    await browser.pause(4000);
+Given(/^I click User profile link and Add New Payment Method$/, async () => {
+    await PaymentMethod.navigateToPaymentPage();
 
 });
 
-Then(/^I should see a home page of disney world$/, async () => {
-    await LoginPage.validateLogin();
+Given(/^I click Add Payment Method Link$/, async () => {
+    await PaymentMethod.navigateToAddPaymentPage();
+
 });
 
-Then(/^I should see logerror message$/, async () => {
-    await LoginPage.validateLoginError();
+Given(/^I should see CreditDebit card add page$/, async () => {
+    await PaymentMethod.navigateToAddCreditDebitPaymentPage();
+
 });
 
+Given(/^I added CreditDebit details on payment page$/, async () => {
+    await PaymentMethod.creditDebitCardDetaills();
 
-Then(/^I should see logerror message as (.+)$/, async (errorMsg:string) => {
-    await LoginPage.validateLoginErrorMessage(errorMsg);
 });
 
-When(/^I click logout button of disney world app$/, async () => {
-    await LoginPage.performLogout();
-});
-
-Then(/^I should logout and see login page$/, async () => {
-    await LoginPage.validateLogout();
-});
 
 

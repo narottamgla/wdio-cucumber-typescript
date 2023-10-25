@@ -1,130 +1,95 @@
-import Page from "../pages/BasePage";
+import Page from "./BasePage";
 
 
-class LoginPage extends Page {
+class PaymentMethod extends Page {
 
-    get inputUsername() { return $("input#InputIdentityFlowValue") }
-    get continueBtn() { return $("[data-testid='BtnSubmit']") }
-    get inputPassword() { return $('[data-testid="InputPassword"]') }
-    get btnSubmit() { return $('[data-testid="BtnSubmit"]') }
-    get iframeId() { return $("#oneid-iframe") }
-    get signOutLink() { return $("(//a[@href='/authentication/logout/'][contains(.,'Sign Out')])[1]") }
     get welcomeUser() { return $("(//a[@href='/profile'])[1]") }
-    get signCreateButton() { return $("(//*[@id='navigationHeader']//div[2]/div[1]/a)[1]") }
-    get fnfLink() { return $("//a[contains(@name,'&lid=WDW_Footer_MDX_FamilyFriends')]") }
-    get loginErrorMsg() { return $("#InputPassword-error") }
+    get addPaymentMethod() { return $("//div[text()='Payment Method']") }
+    get addNewPaymentMethod() {return $("div.wallet-add-link")}
+    get creditDebitCardCheckbox() {return $("div.payment-option-container > label > span")}
+    get cardNumberTxBx() {return $("input[formcontrolname='cardNumber']")}
+    get cardExpirationTxBx() {return $("input[formcontrolname='expiration']")}
 
-    async switchToFrame() {
-        await browser.switchToFrame(0);
-        await console.log("Switched to frame")
+    get cardSecurityCodeTxBx() {return $("input[formcontrolname='securityCode']")}
+
+    get cardholderNameTxBx() {return $("input[formcontrolname='cardholderName']")}
+
+    get addressLine1TxBx() {return $("input[formcontrolname='line1']")}
+
+    get addressLine2TxBx() {return $("input[formcontrolname='line2']")}
+
+    get postalCodeTxBx() {return $("input[formcontrolname='postalCode']")}
+
+    get cityTxBx() {return $("input[formcontrolname='city']")}
+
+    get stateDropdown() {return $("select[formcontrolname='state']")}
+
+    get legalConsentToStoreCard() {return $("[formcontrolname='legalConsentToStoreCard']")} 
+
+    get confirmButton() { return $("//div[text()='Confirm ']") }
+
+    async navigateToPaymentPage() {
+       await this.clickElement(this.welcomeUser);
+       await this.addPaymentMethod.waitForDisplayed({ timeout: 25000 });
+       await this.clickElement(this.addPaymentMethod);
     }
 
-    async login(username: string, password: string) {
-        await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToFrame(1);
-        await browser.pause(2);
-        await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
-        await this.inputUsername.click();
-        await this.waitAndEnterData(this.inputUsername, username);
-        await this.clickElement(this.continueBtn);
-        await this.waitAndEnterData(this.inputPassword, password);
-        await this.waitAndclick(this.btnSubmit);
-        await browser.pause(18000);
+    async navigateToAddPaymentPage(){
+      await browser.pause(16000)
+      await browser.switchToFrame(0);
+      await browser.pause(6000)
+      await this.addNewPaymentMethod.waitForDisplayed({ timeout: 25000 });
+     // await expect(await this.addNewPaymentMethod.isDisplayed()).toBe(true);  
+      await this.addNewPaymentMethod.click();
     }
 
-    async loginExistingUser(username: string, password: string) {
-        try {
-            await browser.pause(8000);
-            await browser.switchToParentFrame();
-            await browser.pause(8000);
-        } catch (error) {
-            console.log("Error while switching to parent frame")
-        }
+    async navigateToAddCreditDebitPaymentPage(){
+        await this.creditDebitCardCheckbox.waitForDisplayed({ timeout: 15000 });
+        await this.creditDebitCardCheckbox.click();
+        console.log("Navigated to add Credit/Debit Page");
+      }
 
-        for(var i =0;i<3;i++){
-        try{
-        await this.iframeId.waitForDisplayed({ timeout: 30000 });
-        await browser.switchToParentFrame();
-        await browser.switchToFrame(0);
-        await browser.pause(2000);
-        await (await this.inputUsername).waitForDisplayed({ timeout: 30000 });
-        await this.inputUsername.click();
-        await this.waitAndEnterData(this.inputUsername, username);
-        await this.clickElement(this.continueBtn);
-        await this.waitAndEnterData(this.inputPassword, password);
-        await this.waitAndclick(this.btnSubmit);
-        await browser.pause(8000);
-        console.log("Working with frame input login :"+ i)
+      async creditDebitCardDetaills(){
+        await this.cardNumberTxBx.waitForDisplayed({ timeout: 15000 });
+        await this.enterData(this.cardNumberTxBx,"1234567812345678");
+        await this.enterData(this.cardExpirationTxBx,"01/26");
+        await this.enterData(this.cardSecurityCodeTxBx,"234");
+        await this.enterData(this.cardholderNameTxBx,"Prahalad b");
 
-        }catch(error){
-        console.log("Error while entering user name")
-        }
-    }
-    }
 
-    async validateLogin() {
+        await this.enterData(this.addressLine1TxBx,"Address Line1");
 
-        try {
-            await browser.pause(18000);
-            await browser.switchToParentFrame();
+        await this.enterData(this.addressLine2TxBx,"Address Line2");
 
-            if (await (await this.signOutLink).isExisting()) {
-                await this.signOutLink.waitForDisplayed({ timeout: 10000 });
-                await expect(this.signOutLink).toBeExisting();
-                await expect(this.welcomeUser).toBeExisting();
-                await expect(this.fnfLink).toBeDisplayed();
-            } else {
-                // Handle the "else" case when this.signOutLink doesn't exist
-                console.error("Sign Out link not found.");
-                // You can add further error handling or logging here if needed
-            }
+        await this.enterData(this.postalCodeTxBx,"553131");
 
-            if (await this.continueBtn.isExisting()) {
-                await expect(this.continueBtn).toBeExisting();
-            } else {
-                // Handle the "else" case when this.continueBtn doesn't exist
-                console.error("Continue button not found.");
-                // You can add further error handling or logging here if needed
-            }
-        } catch (error) {
-            // Handle any other unexpected errors
-            console.error("An error occurred:", error.message);
-            // You can add further error handling or logging here if needed
-        }
-    }
+        await browser.scroll(0, 300);
+        await browser.pause(900);
 
-    async validateLoginError() {
-        await browser.pause(1000);
-        /// await browser.switchToParentFrame();
-        await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
-        await expect( this.loginErrorMsg.isDisplayed()).toBe(true);
-    }
+        await this.stateDropdown.click();
 
-    async validateLoginErrorMessage(errorMsg: string) {
-        await browser.pause(18000);
-        await browser.switchToFrame(null);
-        await this.loginErrorMsg.waitForDisplayed({ timeout: 10000 });
-        await expect((await this.loginErrorMsg.getText()).indexOf(errorMsg) > -1).toBe(true);
-    }
+        //await this.enterData(this.stateDropdown,"NYC");
 
-    async openApp() {
-        await super.open('https://disneyworld.disney.go.com/login');
-        await browser.setTimeout({ 'pageLoad': 10000 })
-    }
+      //  await this.confirmButton.click();
 
-    async performLogout() {
-        await (await this.signOutLink).click();
-    }
+        await browser.pause(6000);
+        await this.legalConsentToStoreCard.click();
 
-    async validateLogout() {
-        await browser.pause(8000);
-        await this.signCreateButton.waitForExist({ timeout: 10000 });
-        await expect(await this.signCreateButton.getText()).toContain("Sign In or Create Account");
-        await browser.deleteSession();
 
-    }
+        //await this.cityTxBx.click();
+
+      //  await this.enterData(this.cityTxBx,"NYC");
+
+        await this.confirmButton.click();
+
+
+        await browser.pause(60000)
+        console.log("AddedCredit/Debit Card details on Credit/Debit Page");
+      }
+
+      
 
 
 }
 
-export default new LoginPage();
+export default new PaymentMethod();

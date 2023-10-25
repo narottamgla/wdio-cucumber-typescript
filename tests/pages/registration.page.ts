@@ -67,11 +67,11 @@ class RegistrationPage extends Page {
             try {
                 console.log("Entering user registered email")
                 await browser.pause(10000);
-                await this.iframeId.waitForDisplayed({ timeout: 10000 });
+                await this.iframeId.waitForDisplayed({ timeout: 1000 });
                 //  await browser.switchToParentFrame();
                 await browser.pause(5000);
                 await browser.switchToFrame(i);
-                await this.emailTxBx.waitForDisplayed({ timeout: 50000 });
+                await this.emailTxBx.waitForDisplayed({ timeout: 5000 });
                 await this.emailTxBx.click();
                 await this.waitAndEnterData(this.emailTxBx, useremail);
                 await this.clickElement(this.continueBtn);
@@ -138,11 +138,11 @@ class RegistrationPage extends Page {
     }
 
     async verifyUserNavigationToRegistrationPage() {
-        await browser.pause(20000);
+        await browser.pause(10000);
+        await browser.switchToFrame(null);
         // await this.regFrame.waitForDisplayed({ timeout: 30000 });
         try {
-
-
+           // await browser.switchToParentFrame();
             await browser.switchToFrame(0);
             console.log("Verifying navigation to registration page")
             await this.createAccountPageTitle.waitForDisplayed({ timeout: 10000 });
@@ -285,12 +285,33 @@ class RegistrationPage extends Page {
         await super.open('https://disneyworld.disney.go.com/login/');
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
+
+        const handles = await browser.getWindowHandles()
+        console.log("Total Opened Window handle: "+ handles.length)
+        if(handles.length>1){
+            await browser.switchToWindow(handles[1]);
+            await browser.closeWindow();
+            console.log("Closed window handle: "+ handles[1])
+            await browser.switchToWindow(handles[0]);
+    
+        }
+
     }
 
     async openAppWithUrl(url: string) {
         await browser.newWindow(url);
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
+
+      /**  const handles = await browser.getWindowHandles()
+        console.log("Total Opened Window handle: "+ handles.length)
+        if(handles.length>1){
+            await browser.switchToWindow(handles[1]);
+            await browser.closeWindow();
+            console.log("Closed window handle: "+ handles[1])
+            await browser.switchToWindow(handles[0]);
+    
+        }**/
     }
 
     async validatePasswordErrorMessage(errorMsg: string) {

@@ -65,7 +65,6 @@ Feature: Registration feature for Disney world
   #| tst3211235@mailinator.com | Miss   | sfname    | slname   | disney123 | 01-01-1989 | Spain          | 45, 3º, 2ª Ave     | Santa Mari       | Madrid  | Madrid     | 28012      |
   #| tst3211236@mailinator.com | Miss   | arfname   | arlname  | disney123 | 01-01-1989 | Argentina      | Humberto Primo 630 | Corboda          | Corboda | Corboda    | 14003      |
 
-@mytest
   Scenario Outline: As a user, I should not log into the Disney world with Bad password
     Given I am on the login page
     When I login with existing user with password as "disney123"
