@@ -30,6 +30,8 @@ class PaymentMethod extends Page {
 
     async navigateToPaymentPage() {
        await this.clickElement(this.welcomeUser);
+       await  browser.pause(2000);
+       await browser.scroll(0, 300);
        await this.addPaymentMethod.waitForDisplayed({ timeout: 25000 });
        await this.clickElement(this.addPaymentMethod);
     }
@@ -86,10 +88,6 @@ class PaymentMethod extends Page {
         await browser.pause(60000)
         console.log("AddedCredit/Debit Card details on Credit/Debit Page");
       }
-
-      
-
-
 }
 
 export default new PaymentMethod();

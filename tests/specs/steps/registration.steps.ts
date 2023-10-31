@@ -36,6 +36,7 @@ When(/^I login with the existing user$/, async () => {
 });
 
 When(/^I login with existing user with password as (.+)$/, async (password:string) => {
+    await console.log("Login with existing user:"+ randomEmail)
     await LoginPage.loginExistingUser(randomEmail, password.replace(/^"|"$/g, ''));
     await browser.pause(4000);
 });

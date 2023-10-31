@@ -60,7 +60,8 @@ class RegistrationPage extends Page {
         try {
             await browser.switchToParentFrame();
         } catch (error) {
-
+           console.error("Error while switching to parent frame")
+           await browser.switchToFrame(null);
         }
         for (let i = 0; i < 3; i++) {
 

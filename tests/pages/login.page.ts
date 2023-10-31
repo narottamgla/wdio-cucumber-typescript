@@ -49,16 +49,22 @@ class LoginPage extends Page {
     }
 
     async loginExistingUser(username: string, password: string) {
+        var entered=false;
         try {
-            await browser.switchToFrame(null);
+           // await browser.switchToFrame(null);
             await browser.pause(8000);
-            await browser.switchToParentFrame();
+          //  await browser.switchToParentFrame();
             await browser.pause(8000);
+            await this.waitAndEnterData(this.inputUsername, username);
+            await this.clickElement(this.continueBtn);
+            await this.waitAndEnterData(this.inputPassword, password);
+            await this.waitAndclick(this.btnSubmit);
+            entered =true;
         } catch (error) {
-            console.log("Error while switching to parent frame")
+            console.log("Error while switching to parent frame"+ error)
         }
 
-        for(var i =0;i<3;i++){
+        for(var i =0;i<3 && !entered;i++){
         try{
         await this.iframeId.waitForDisplayed({ timeout: 30000 });
         await browser.switchToParentFrame();
@@ -74,7 +80,7 @@ class LoginPage extends Page {
         console.log("Working with frame input login :"+ i)
 
         }catch(error){
-        console.log("Error while entering user name")
+        console.log("Error while entering user name:"+ username)
         }
     }
     }

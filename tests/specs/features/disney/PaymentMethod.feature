@@ -14,6 +14,10 @@ Feature: Disney world Add New Paytment Method feature
     
     Examples:
       | username                 | password  |
-      | OST7G92EZ@mailinator.com | disney123 |
+      #| OST7G92EZ@mailinator.com | disney123 |
+      | tst3211234@mailinator.com | disney123 |
+
+
+       
 
  
