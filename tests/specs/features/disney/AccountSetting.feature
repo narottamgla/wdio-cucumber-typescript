@@ -50,7 +50,10 @@ Scenario Outline: As a valid user, As a user, I should able to change home/mobil
     And I click on Create registration button
     When I click User profile link and Add account setting tab
     Then I should navigate to account setting tab
+    When I enter mobile number to change and click Done Button 
     When I enter mobile number to change and click verify link 
+    Then I should see validate code screen
+    When I enter mobile number to change and click Done Button
     Then I should see validate code screen
     Examples:
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |

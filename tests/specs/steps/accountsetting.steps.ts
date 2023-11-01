@@ -43,9 +43,19 @@ Then(/^I should see more security settings page in new window$/, async () => {
 
 });
 
-When(/^I enter mobile number to change and click verify link$/, async () => {
+When(/^I enter mobile number to change and click Done Button$/, async () => {
     await AccountsettingPage.changeMobileNumber()
 
+});
+
+
+When(/^I enter home number to change and click Done Button$/, async () => {
+    await AccountsettingPage.changeMobileNumber()
+
+});
+When(/^I enter mobile number to change and click verify link$/, async () => {
+    await AccountsettingPage.verifyMobilenNumber()
+    await AccountsettingPage.clickOTPCancel();
 });
 
 Then(/^I should see validate code screen$/, async () => {

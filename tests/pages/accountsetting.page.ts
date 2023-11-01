@@ -2,6 +2,7 @@ import Page from "./BasePage";
 
 
 class AccountSettingPage extends Page {
+    
 
     get accountSettingLink() { return $("//div[text()='Manage how you sign in.']") }
     get accountSettingPageTitle() { return $("h1#Title span") }
@@ -20,9 +21,13 @@ class AccountSettingPage extends Page {
     get changeMobilePhoneTxBx() {return $("[data-testid='Phone_MOBILE_PhoneNumberInput-container'] input")}
     get changeHomePhoneTxBx() {return $("[data-testid='Phone_NIGHT_PhoneNumberInput'] input")}
     get verifyMobileNumberLink() {return $("//a[text()='Verify your mobile number']")}
+    get countryropdown() {return $("select#Phone_MOBILE_CountryCodeSelect")}
+    get countryropdownOption() {return $("//*[@id='Phone_MOBILE_CountryCodeSelect']/option[text()='United States']")}
+
 
 
     async clickAccountSettingLink() {
+        await browser.pause(30000)
         await this.welcomeUser.waitForDisplayed({ timeout: 10000 });
         await this.clickElement(this.welcomeUser);
         await this.clickElement(this.accountSettingLink);
@@ -76,11 +81,32 @@ class AccountSettingPage extends Page {
         await expect(await this.createAccountButton.isDisplayed()).toBe(true);
     }
 
-    async changeMobileNumber(){
-        await this.waitAndEnterData(this.changeMobilePhoneTxBx,"3232131231")
-        await browser.pause(20000)
-        await this.waitAndclick(this.changeMobilePhoneTxBx)
+    async verifyMobilenNumber(){
         await this.waitAndclick(this.verifyMobileNumberLink)
+        await browser.pause(20000)
+
+    }
+
+
+    async changeMobileNumber(){
+        await browser.scroll(0, 300)
+        await browser.pause(20000)
+        await this.waitAndEnterData(this.changeMobilePhoneTxBx,"3232131231")
+        await browser.pause(40000)
+        await this.countryropdown.click();
+        await this.countryropdownOption.click();
+        await browser.pause(20000)
+
+    }
+
+
+    async changeHomeNumber(){
+        await browser.scroll(0, 300)
+        await browser.pause(20000)
+        await this.waitAndEnterData(this.changeHomePhoneTxBx,"3232131231")
+        await browser.pause(40000)
+        await this.countryropdown.click();
+        await this.countryropdownOption.click();
         await browser.pause(20000)
 
     }
@@ -93,10 +119,21 @@ class AccountSettingPage extends Page {
     }
 
     async validateSendCodeScreen(){
-        await expect(await this.btnSubmit.isDisplayed()).toBe(true);
-
+        try {
+            await browser.pause(20000);
+            await this.btnSubmit.waitForDisplayed({ timeout: 20000 });
+            await expect(await this.btnSubmit.isDisplayed()).toBe(true);
+        } catch (error) {
+            console.log("Catch Block success");
+            await browser.switchToParentFrame();
+            await browser.switchToFrame(0);    
+            await this.btnSubmit.waitForDisplayed({ timeout: 20000 });
+            await expect(await this.btnSubmit.isDisplayed()).toBe(true);
+        }
     }
-
+    async clickDoneButton() {
+        await this.waitAndclick(this.btnSubmit);
+    }
     
     async clickMayBeLaterButton(){
         await this.waitAndclick(this.btnCancel);
