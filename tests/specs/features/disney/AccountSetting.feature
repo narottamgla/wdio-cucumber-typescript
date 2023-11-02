@@ -1,4 +1,4 @@
-Feature: Registration feature for Disney world
+Feature: Account Setting feature for Disney world
 
   Background: Open Registration page
     Given I open the disneyworld Registration page
