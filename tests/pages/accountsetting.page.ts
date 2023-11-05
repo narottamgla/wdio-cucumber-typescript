@@ -35,7 +35,7 @@ class AccountSettingPage extends Page {
     }
 
     async validateNavigationToAccountSettingPage() {
-        await browser.pause(20000)
+        await browser.pause(30000)
         await browser.switchToParentFrame();
         await browser.switchToFrame(1);
         await this.accountSettingPageTitle.waitForDisplayed({ timeout: 10000 });
@@ -65,8 +65,8 @@ class AccountSettingPage extends Page {
     }
 
     async clickMoresecurityLink() {
-        await browser.pause(20000)
-        await this.clickElement(this.moreSecurityLink)
+        await browser.pause(40000);
+        await this.moreSecurityLink.click();
     }
 
     async validateMoresecurityPage() {

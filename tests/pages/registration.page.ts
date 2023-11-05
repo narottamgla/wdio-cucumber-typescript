@@ -49,8 +49,8 @@ class RegistrationPage extends Page {
 
     get termsAndConditionOnLogin() { return $("[data-testid='DLR-NGE-TOU']") }
     get termsAndConditionOnLoginCruise() { return $("[data-testid='DCL-NGE-TOU-text']") }
-    get agreeAndContinueButton() {return $("[data-testid='BtnSubmit']")}
-    get signMeOutButton() {return $("[data-testid='BtnCancel']")}
+    get agreeAndContinueButton() { return $("[data-testid='BtnSubmit']") }
+    get signMeOutButton() { return $("[data-testid='BtnCancel']") }
     //disneyland
 
     get SignInRegister() { return $("(//*[contains(@class, 'accountContainer')])[1]") }
@@ -60,8 +60,8 @@ class RegistrationPage extends Page {
         try {
             await browser.switchToParentFrame();
         } catch (error) {
-           console.error("Error while switching to parent frame")
-           await browser.switchToFrame(null);
+            console.error("Error while switching to parent frame")
+            await browser.switchToFrame(null);
         }
         for (let i = 0; i < 3; i++) {
 
@@ -143,7 +143,7 @@ class RegistrationPage extends Page {
         await browser.switchToFrame(null);
         // await this.regFrame.waitForDisplayed({ timeout: 30000 });
         try {
-           // await browser.switchToParentFrame();
+            // await browser.switchToParentFrame();
             await browser.switchToFrame(0);
             console.log("Verifying navigation to registration page")
             await this.createAccountPageTitle.waitForDisplayed({ timeout: 10000 });
@@ -215,14 +215,35 @@ class RegistrationPage extends Page {
     }
 
     async enterPasswordDOB(password: string, dob: string) {
-        await browser.pause(2000);
-        await this.waitAndEnterData(this.passwordTxBx, password);
-        await browser.pause(2000);
-
-        await this.waitAndEnterData(this.dateBirthTxBx, dob);
-        await browser.pause(9000);
-
-
+        await browser.pause(10000);
+        try {
+            await browser.pause(10000);
+            await this.waitAndEnterData(this.passwordTxBx, password);
+            await browser.pause(2000);
+            await this.waitAndEnterData(this.dateBirthTxBx, dob);
+            await browser.pause(9000);
+        } catch (error) {
+            try {
+                console.log("Error occurred - Retry 2")
+                await browser.pause(2000);
+                await browser.switchToParentFrame();//testing 
+                await browser.switchToFrame(0)
+                await browser.pause(10000);
+                await this.waitAndEnterData(this.passwordTxBx, password);
+                await browser.pause(2000);
+                await this.waitAndEnterData(this.dateBirthTxBx, dob);
+                await browser.pause(9000);
+            } catch (error) {
+                await browser.pause(2000);
+                await browser.switchToParentFrame();//testing 
+                await browser.switchToFrame(1)
+                await browser.pause(10000);
+                await this.waitAndEnterData(this.passwordTxBx, password);
+                await browser.pause(2000);
+                await this.waitAndEnterData(this.dateBirthTxBx, dob);
+                await browser.pause(9000);
+            }
+        }
     }
 
     async enterBillingDetails(country: string, addressLine1: string, addressLine2: string, city: string, region: string, postalCode: string) {
@@ -288,13 +309,13 @@ class RegistrationPage extends Page {
         console.log("Opened registration page")
 
         const handles = await browser.getWindowHandles()
-        console.log("Total Opened Window handle: "+ handles.length)
-        if(handles.length>1){
+        console.log("Total Opened Window handle: " + handles.length)
+        if (handles.length > 1) {
             await browser.switchToWindow(handles[1]);
             await browser.closeWindow();
-            console.log("Closed window handle: "+ handles[1])
+            console.log("Closed window handle: " + handles[1])
             await browser.switchToWindow(handles[0]);
-    
+
         }
 
     }
@@ -304,22 +325,22 @@ class RegistrationPage extends Page {
         await browser.setTimeout({ 'pageLoad': 10000 })
         console.log("Opened registration page")
 
-      /**  const handles = await browser.getWindowHandles()
-        console.log("Total Opened Window handle: "+ handles.length)
-        if(handles.length>1){
-            await browser.switchToWindow(handles[1]);
-            await browser.closeWindow();
-            console.log("Closed window handle: "+ handles[1])
-            await browser.switchToWindow(handles[0]);
-    
-        }**/
+        /**  const handles = await browser.getWindowHandles()
+          console.log("Total Opened Window handle: "+ handles.length)
+          if(handles.length>1){
+              await browser.switchToWindow(handles[1]);
+              await browser.closeWindow();
+              console.log("Closed window handle: "+ handles[1])
+              await browser.switchToWindow(handles[0]);
+      
+          }**/
     }
 
     async validatePasswordErrorMessage(errorMsg: string) {
         await browser.switchToParentFrame();
         await browser.switchToFrame(0);
         await this.passwordError.waitForDisplayed({ timeout: 10000 });
-      //  expect(await this.passwordError.getText()).toHaveTextContaining(errorMsg);
+        //  expect(await this.passwordError.getText()).toHaveTextContaining(errorMsg);
     }
 
     parentWindow: any;
@@ -448,18 +469,18 @@ class RegistrationPage extends Page {
         console.log("Validate Change country")
         await browser.pause(1000);
         await browser.scroll(0, 1300)
-       
-            for (let i = 0; i < 3; i++) {
-                try {
+
+        for (let i = 0; i < 3; i++) {
+            try {
                 await browser.switchToFrame(null);
                 await browser.switchToFrame(i);
                 await this.countryNameLabelOnRegPage.waitForDisplayed({ timeout: 1000 });
                 await expect(await this.countryNameLabelOnRegPage.getText()).toContain(country);
                 await console.log("Worked with Frame : " + i)
                 break;
-        } catch (error) {
-            await console.log("Error occurred with Frame")
-        }
+            } catch (error) {
+                await console.log("Error occurred with Frame")
+            }
 
         }
     }
