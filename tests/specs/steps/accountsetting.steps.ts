@@ -64,4 +64,26 @@ Then(/^I should see validate code screen$/, async () => {
 });
 
 
+When(/^I click Learn More Link tabs$/, async () => {
+    await AccountsettingPage.clickLearnMoreLink();
+});
+
+Then(/^I should see Learn More  page in new window$/, async () => {
+    await AccountsettingPage.validateLearnMoreTab()
+
+});
+
+
+When(/^I click Manage Email subscription$/, async () => {
+    await AccountsettingPage.ClickManageEmailSubscription();
+});
+
+Then(/^I should see Manage Email subscription  page in new window$/, async () => {
+    await AccountsettingPage.validateManageEmailSubscripionTav()
+
+});
+
+
+
+
 

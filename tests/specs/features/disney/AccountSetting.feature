@@ -24,8 +24,7 @@ Feature: Account Setting feature for Disney world
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
-
-  @mytest
+ @mytest
    Scenario Outline: As a valid user, As a user, I should able to check More security settings page
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -50,5 +49,32 @@ Scenario Outline: As a valid user, As a user, I should able to change home/mobil
     When I enter mobile number to change and click Done Button
     Then I should see validate code screen
     Examples:
+      | useremail                 |
+      | tst3211234@mailinator.com |
+
+ @mytest
+Scenario Outline: As a valid user, As a user, I should able to check Learn More
+    When I fill username as <useremail> and click continue button
+    And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
+    And I enter Password as <password> and Birthdate as <birthdate>
+    And I enter Billing address country as <country>, address as <line1>, line2 as <line2>, city as <city>, region as <region> and postalcode as <postalcode>
+    And I selects notification consent as "Yes" and disney world consent as "Yes"
+    And I click on Create registration button
+    When I click User profile link and Add account setting tab
+    Then I should navigate to account setting tab
+     When I click Learn More Link tabs
+    Then I should see Learn More  page in new window
+    Examples:
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
+
+
+ @mytest
+Scenario Outline: As a valid user, As a user, I should able check Manage Email subscription
+    When I fill username as <useremail> and click continue button
+     When I click Manage Email subscription
+    Then I should see Manage Email subscription  page in new window
+       Examples:
+      | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
+      | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
+

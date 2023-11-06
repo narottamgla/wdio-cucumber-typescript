@@ -16,7 +16,7 @@ class AccountSettingPage extends Page {
     get welcomeUser() { return $("(//a[@href='/profile'])[1]") }
 
     get moreSecurityLink() {return $("//a[text()='More security settings']")}
-    get createAccountButton() {return $("h1.headline__title ")}
+    get createAccountButton() {return $("h1.headline__title")}
 
     get changeMobilePhoneTxBx() {return $("[data-testid='Phone_MOBILE_PhoneNumberInput-container'] input")}
     get changeHomePhoneTxBx() {return $("[data-testid='Phone_NIGHT_PhoneNumberInput'] input")}
@@ -24,6 +24,13 @@ class AccountSettingPage extends Page {
     get countryropdown() {return $("select#Phone_MOBILE_CountryCodeSelect")}
     get countryropdownOption() {return $("//*[@id='Phone_MOBILE_CountryCodeSelect']/option[text()='United States']")}
 
+    
+    get learnMorePage() {return $("div h1 span.product-name")}
+    get learnMoreLink() {return $("//a[text()='Learn More']")}
+
+    get manageEmailSubscriptionLiink() {return $("//a[text()='Manage your email subscriptions']")}
+
+    get emailSubscriptionPageTitle() {return $("div h1.emailPreferencesTitle")}
 
 
     async clickAccountSettingLink() {
@@ -79,6 +86,40 @@ class AccountSettingPage extends Page {
         }
         await browser.pause(20000)
         await expect(await this.createAccountButton.isDisplayed()).toBe(true);
+    }
+
+    async clickLearnMoreLink() {
+        await browser.pause(20000);
+        await this.learnMoreLink.click();
+    }
+
+    async ClickManageEmailSubscription() {
+        await browser.pause(20000);
+        await this.manageEmailSubscriptionLiink.click();
+    }
+    async validateLearnMoreTab() {
+        await browser.pause(20000)
+
+        const handles = await browser.getWindowHandles()
+        for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
+            console.log("Handles::" + handles[i])
+            await browser.switchToWindow(handles[i])
+        }
+        await browser.pause(20000)
+        await expect(await this.learnMorePage.isDisplayed()).toBe(true);
+    }
+
+
+    async validateManageEmailSubscripionTav() {
+        await browser.pause(20000)
+
+        const handles = await browser.getWindowHandles()
+        for (var i = 0; i < (await browser.getWindowHandles()).length; i++) {
+            console.log("Handles::" + handles[i])
+            await browser.switchToWindow(handles[i])
+        }
+        await browser.pause(20000)
+        await expect(await this.emailSubscriptionPageTitle.isDisplayed()).toBe(true);
     }
 
     async verifyMobilenNumber(){
