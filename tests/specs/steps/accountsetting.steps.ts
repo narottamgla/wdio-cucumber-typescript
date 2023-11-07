@@ -84,6 +84,27 @@ Then(/^I should see Manage Email subscription  page in new window$/, async () =>
 });
 
 
+When(/^I update the billing address on billing address update page as pincode (.+) and city as (.+)$/, async (pincode:string,city:string) => {
+    await AccountsettingPage.changeBillingAddress(pincode,city);
+});
+
+Then(/^I should see updated billing address as pincode (.+) and city as (.+)$/, async (pincode:string,city:string) => {
+    await AccountsettingPage.validateUpdatedBillingAddress(pincode,city);
+
+});
+
+
+When(/^I update the shipping address on shipping address update page as pincode (.+) and city as (.+)$/, async (pincode:string,city:string) => {
+    await AccountsettingPage.changeBillingAddress(pincode,city);
+});
+
+Then(/^I should see updated shipping address as pincode (.+) and city as (.+)$/, async (pincode:string,city:string) => {
+    await AccountsettingPage.validateUpdatedBillingAddress(pincode,city);
+
+});
+
+
+
 
 
 

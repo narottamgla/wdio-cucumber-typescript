@@ -2,8 +2,7 @@ import Page from "./BasePage";
 
 
 class AccountSettingPage extends Page {
-    
-
+  
     get accountSettingLink() { return $("//div[text()='Manage how you sign in.']") }
     get accountSettingPageTitle() { return $("h1#Title span") }
     get changeEmailLink() { return $('[data-testid="Email_edit-btn"]') }
@@ -31,6 +30,18 @@ class AccountSettingPage extends Page {
     get manageEmailSubscriptionLiink() {return $("//a[text()='Manage your email subscriptions']")}
 
     get emailSubscriptionPageTitle() {return $("div h1.emailPreferencesTitle")}
+
+    get changeBillingAddressLink() {return $("[data-testid='Address-BILLING_edit-btn'] svg")}
+
+    get updateShippingAddress() {return $("[data-testid='Address-SHIPPING_edit-btn'] svg")}
+
+    get billingAddress() {return $("(//*[@class='field__content']/address)[1]")}
+
+    get shippingAddress() {return $("(//*[@class='field__content']/address)[2]")}
+
+    get cityUpdateTxBx() {return $("input.input-BillingAddress-CityInput")}
+
+    get pincodeUpdateTxBx() {return $("input.input-BillingAddress-PostalCode")}
 
 
     async clickAccountSettingLink() {
@@ -180,6 +191,31 @@ class AccountSettingPage extends Page {
         await this.waitAndclick(this.btnCancel);
 
     }
+
+    async validateUpdatedBillingAddress(pincode: string, city: string) {
+        await expect(await (await this.billingAddress).getText()).toContain(city);
+        await expect(await (await this.billingAddress).getText()).toContain(pincode);
+    }
+    async changeBillingAddress(pincode: string, city: string) {
+        this.changeBillingAddressLink.click();
+        this.waitAndEnterData(this.pincodeUpdateTxBx,pincode);
+        this.waitAndEnterData(this.cityUpdateTxBx,city);
+        this.btnSubmit.click();
+    }
+
+
+    async changeShippingAddress(pincode: string, city: string) {
+        this.updateShippingAddress.click();
+        this.waitAndEnterData(this.pincodeUpdateTxBx,pincode);
+        this.waitAndEnterData(this.cityUpdateTxBx,city);
+        this.btnSubmit.click();
+    }
+
+    async validateUpdatedShippingAddress(pincode: string, city: string) {
+        await expect(await (await this.shippingAddress).getText()).toContain(city);
+        await expect(await (await this.shippingAddress).getText()).toContain(pincode);
+    }
+    
 
 }
 

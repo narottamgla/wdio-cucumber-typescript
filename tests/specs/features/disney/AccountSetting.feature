@@ -78,3 +78,37 @@ Scenario Outline: As a valid user, As a user, I should able check Manage Email s
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
+
+
+Scenario Outline: As a valid user, I should able to update billing address
+    When I fill username as <useremail> and click continue button
+    And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
+    And I enter Password as <password> and Birthdate as <birthdate>
+    And I enter Billing address country as <country>, address as <line1>, line2 as <line2>, city as <city>, region as <region> and postalcode as <postalcode>
+    And I selects notification consent as "Yes" and disney world consent as "Yes"
+    And I click on Create registration button
+    When I click User profile link and Add account setting tab
+    Then I should navigate to account setting tab
+    Then I update the billing address on billing address update page as pincode "234567" and city as ""
+    Then I should see updated billing address as pincode "234567" and city as "Seattle1"
+    Examples:
+      | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
+      | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
+
+
+
+ @mytest1
+Scenario Outline: As a valid user, I should able to update shipping address
+    When I fill username as <useremail> and click continue button
+    And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
+    And I enter Password as <password> and Birthdate as <birthdate>
+    And I enter Billing address country as <country>, address as <line1>, line2 as <line2>, city as <city>, region as <region> and postalcode as <postalcode>
+    And I selects notification consent as "Yes" and disney world consent as "Yes"
+    And I click on Create registration button
+    When I click User profile link and Add account setting tab
+    Then I should navigate to account setting tab
+    Then I update the shipping address on shipping address update page as pincode "234567" and city as "Seattle1"
+    Then I should see updated shipping address as pincode "234567" and city as "Seattle1"
+    Examples:
+      | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
+      | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
