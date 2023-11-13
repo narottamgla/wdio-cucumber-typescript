@@ -1,6 +1,6 @@
 
 import { ChainablePromiseElement } from 'webdriverio';
-
+import * as fs from 'fs'
 const logStep = (logMessage: string) => console.log(`STEP || ${logMessage}`);
 export type WebElement = ChainablePromiseElement<WebdriverIO.Element>
 
@@ -17,7 +17,7 @@ export default class BasePage {
     }
 
     protected async waitAndclick(element: WebElement, waitTime?: number) {
-        await element.waitForClickable({ timeout: waitTime ? waitTime : 10000 ,timeoutMsg: "Timeout while clicking"})
+        await element.waitForClickable({ timeout: waitTime ? waitTime : 10000, timeoutMsg: "Timeout while clicking" })
         await element.click()
         logStep(`clicked on Element: ${await element.selector}`);
     }
@@ -44,5 +44,22 @@ export default class BasePage {
         await element.selectByVisibleText(text)
         logStep(`Selected Element: ${await element.selector} by visible text: ${text}`);
     }
+
+    public async writeToJson(path: string, username: string,pass:string, rewrite: boolean = true) {
+
+        let data = {
+            user: username,
+            password: pass,
+        };
+        let old_data: any = fs.readFileSync(__dirname + path)
+        if (old_data.length == 0 || rewrite == true) {
+            fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 4))
+            return
+        }
+        let json_obj: any = [JSON.parse(old_data)] // without brackets it reverts an error
+        json_obj.push(data)
+        fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 4))
+    }
+
 
 }

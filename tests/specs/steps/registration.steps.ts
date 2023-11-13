@@ -28,6 +28,7 @@ When(/^I fill username as (.+) and click continue button$/, async (useremail) =>
     await RegistrationPage.navigateToRegistrationPage(randomEmail);
     await RegistrationPage.verifyUserNavigationToRegistrationPage();
     await browser.pause(8000);
+    await RegistrationPage.writeToJson("\\logindata.json",randomEmail,"disney123",true);
 });
 
 When(/^I login with the existing user$/, async () => {
