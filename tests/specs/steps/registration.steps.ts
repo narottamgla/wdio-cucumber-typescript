@@ -28,7 +28,7 @@ When(/^I fill username as (.+) and click continue button$/, async (useremail) =>
     await RegistrationPage.navigateToRegistrationPage(randomEmail);
     await RegistrationPage.verifyUserNavigationToRegistrationPage();
     await browser.pause(8000);
-    await RegistrationPage.writeToJson("\\logindata.json",randomEmail,"disney123",true);
+    await RegistrationPage.writeToJson("\\logindata.json",randomEmail,"disney123",false);
 });
 
 When(/^I login with the existing user$/, async () => {
@@ -37,6 +37,9 @@ When(/^I login with the existing user$/, async () => {
 });
 
 When(/^I login with existing user with password as (.+)$/, async (password:string) => {
+    //testing purpose
+    randomEmail = RegistrationPage.readJsonFile("\\logindata.json");
+    await console.log("Json File User Email: "+ randomEmail)
     await console.log("Login with existing user:"+ randomEmail)
     await LoginPage.loginExistingUser(randomEmail, password.replace(/^"|"$/g, ''));
     await browser.pause(4000);

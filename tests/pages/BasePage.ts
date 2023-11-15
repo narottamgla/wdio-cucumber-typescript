@@ -61,5 +61,15 @@ export default class BasePage {
         fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 4))
     }
 
+    public async readJsonFile(path: string) {
+        let old_data: any = fs.readFileSync(__dirname + path)
+        let json_obj: any = JSON.parse(old_data)
+        let totalRecords = json_obj.size();
+        return json_obj[Math.floor(Math.random() * totalRecords) + 1];
+    }
+
+
+
+
 
 }
