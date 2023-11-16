@@ -45,20 +45,22 @@ export default class BasePage {
         logStep(`Selected Element: ${await element.selector} by visible text: ${text}`);
     }
 
+
     public async writeToJson(path: string, username: string,pass:string, rewrite: boolean = true) {
 
+        rewrite=true;
         let data = {
-            user: username,
-            password: pass,
+            username: username,
+            pass: pass,
         };
         let old_data: any = fs.readFileSync(__dirname + path)
         if (old_data.length == 0 || rewrite == true) {
-            fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 4))
+            fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
             return
         }
-        let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
-        json_obj.push(data)
-        fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 4))
+       // let json_obj: any = [JSON.parse(old_data)] // without brackets it reverts an error
+       //json_obj.push({username,pass})
+       // fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 2))
     }
 
     public async readJsonFile(path: string) {
