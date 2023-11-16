@@ -56,7 +56,7 @@ export default class BasePage {
             fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 4))
             return
         }
-        let json_obj: any = [JSON.parse(old_data)] // without brackets it reverts an error
+        let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
         json_obj.push(data)
         fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 4))
     }
