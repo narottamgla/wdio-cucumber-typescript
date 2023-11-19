@@ -49,10 +49,9 @@ export default class BasePage {
     public async writeToJson(path: string, username: string,pass:string, rewrite: boolean = true) {
 
         rewrite=true;
-        let data = {
+        let data = [{
             username: username,
-            pass: pass,
-        };
+        }];
         let old_data: any = fs.readFileSync(__dirname + path)
         if (old_data.length == 0 || rewrite == true) {
             fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
