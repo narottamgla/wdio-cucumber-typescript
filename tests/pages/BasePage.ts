@@ -53,13 +53,13 @@ export default class BasePage {
             username: username,
         }];
         let old_data: any = fs.readFileSync(__dirname + path)
-        if (old_data.length == 0 || rewrite == true) {
+     /**  if (old_data.length == 0 || rewrite == true) {
             fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
             return
-        }
-       // let json_obj: any = [JSON.parse(old_data)] // without brackets it reverts an error
-       //json_obj.push({username,pass})
-       // fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 2))
+        }**/
+        let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
+       json_obj.push({username,pass})
+        fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 2))
     }
 
     public async readJsonFile(path: string) {
