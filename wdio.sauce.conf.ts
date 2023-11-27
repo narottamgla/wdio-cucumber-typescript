@@ -8,8 +8,8 @@ export const config: Options.Testrunner = {
     // Runner Configuration
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
-    user: "",
-    key: "",
+    user: "TAB_Studio",
+    key: "cbdd3dd5-a9f3-409e-8012-8d134c012775",
     region: 'us', // or 'eu' or 'apac'
     services : ['sauce'],
     runner: 'local',
@@ -36,23 +36,15 @@ export const config: Options.Testrunner = {
     // Capabilities
     // ============
     maxInstances: 2,
-    capabilities: [
-        {
-            maxInstances: 1,
-            browserName: 'chrome',
-            browserVersion: "stable",
-            acceptInsecureCerts: true,
-            'goog:chromeOptions': {
-                args: [
-                    '--no-sandbox',
-                    '--disable-infobars',
-                    //     '--headless',
-                    '--disable-gpu',
-                    '--window-size=1440,735'
-                ],
-            }
-        }
-    ],
+        capabilities: [{
+                browserName: 'chrome',
+                platformName: 'Windows 10',
+                browserVersion: 'latest',
+                'sauce:options': {
+                    build: `Build-${new Date().getTime()}`,
+                    screenResolution: '1920x1080'
+                }
+            }],
 
     // ===================
     // Test Configurations
@@ -88,7 +80,7 @@ export const config: Options.Testrunner = {
         source: true,
         profile: [],
         strict: false,
-        tagExpression: '@mytest1',
+        tagExpression: '@mytest',
         timeout: 200000,
         ignoreUndefinedDefinitions: false,
 

@@ -1,6 +1,7 @@
 
 import { ChainablePromiseElement } from 'webdriverio';
 import * as fs from 'fs'
+import path from 'path';
 const logStep = (logMessage: string) => console.log(`STEP || ${logMessage}`);
 export type WebElement = ChainablePromiseElement<WebdriverIO.Element>
 
@@ -46,20 +47,17 @@ export default class BasePage {
     }
 
 
-    public async writeToJson(path: string, username: string,pass:string, rewrite: boolean = true) {
+    public async writeToJson(filePath: string, username: string,pass:string, rewrite: boolean = true) {
 
         rewrite=true;
-        let data = [{
-            username: username,
-        }];
-        let old_data: any = fs.readFileSync(__dirname + path)
+        let old_data: any = fs.readFileSync(__dirname + path.sep + filePath)
      /**  if (old_data.length == 0 || rewrite == true) {
             fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
             return
         }**/
         let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
        json_obj.push({username,pass})
-        fs.writeFileSync(__dirname + path, JSON.stringify(json_obj, null, 2))
+        fs.writeFileSync(__dirname + path.sep+ filePath, JSON.stringify(json_obj, null, 2))
     }
 
     public async readJsonFile(path: string) {

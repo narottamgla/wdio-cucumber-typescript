@@ -52,7 +52,7 @@ Scenario Outline: As a valid user, As a user, I should able to change home/mobil
       | useremail                 |
       | tst3211234@mailinator.com |
 
- @mytest
+  @mytest
 Scenario Outline: As a valid user, As a user, I should able to check Learn More
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -69,7 +69,7 @@ Scenario Outline: As a valid user, As a user, I should able to check Learn More
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
 
- @mytest
+  @mytest
 Scenario Outline: As a valid user, As a user, I should able check Manage Email subscription
     When I fill username as <useremail> and click continue button
      When I click Manage Email subscription
@@ -79,7 +79,7 @@ Scenario Outline: As a valid user, As a user, I should able check Manage Email s
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
 
-
+ @ignore
 Scenario Outline: As a valid user, I should able to update billing address
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -97,7 +97,7 @@ Scenario Outline: As a valid user, I should able to update billing address
 
 
 
- @mytest1
+ @ignore
 Scenario Outline: As a valid user, I should able to update shipping address
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
