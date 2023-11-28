@@ -24,7 +24,7 @@ Feature: Account Setting feature for Disney world
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
- @mytest
+  @mytest
    Scenario Outline: As a valid user, As a user, I should able to check More security settings page
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -67,7 +67,6 @@ Scenario Outline: As a valid user, As a user, I should able to check Learn More
     Examples:
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
-
 
   @mytest
 Scenario Outline: As a valid user, As a user, I should able check Manage Email subscription

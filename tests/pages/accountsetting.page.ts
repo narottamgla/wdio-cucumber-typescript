@@ -54,7 +54,8 @@ class AccountSettingPage extends Page {
 
     async validateNavigationToAccountSettingPage() {
         await browser.pause(30000)
-        await browser.switchToParentFrame();
+       // await browser.switchToParentFrame();
+        await browser.switchToFrame(null);
         await browser.switchToFrame(1);
         await this.accountSettingPageTitle.waitForDisplayed({ timeout: 10000 });
         await expect(this.accountSettingPageTitle).toBeDisplayed();
@@ -71,7 +72,8 @@ class AccountSettingPage extends Page {
     }
 
     async clickOTPCancel() {
-        await browser.pause(20000)
+        await browser.pause(10000)
+        await this.btnCancel.waitForDisplayed({ timeout: 10000 });
         await this.clickElement(this.btnCancel)
     }
 
@@ -134,8 +136,10 @@ class AccountSettingPage extends Page {
     }
 
     async verifyMobilenNumber(){
+        await browser.pause(10000)
         await this.waitAndclick(this.verifyMobileNumberLink)
         await browser.pause(20000)
+        console.log("Clicked Verify Link")
 
     }
 
