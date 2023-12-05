@@ -32,7 +32,7 @@ class LoginPage extends Page {
         await this.waitAndclick(this.btnSubmit);
         await browser.pause(18000);
         }catch(error){
-            console.log("Error occured with Frame-0, Trying with frame-1");
+            console.log("Error occurred with Frame-0, Trying with frame-1");
             await browser.switchToParentFrame();
             await this.iframeId.waitForDisplayed({ timeout: 30000 });
             await browser.switchToFrame(1);

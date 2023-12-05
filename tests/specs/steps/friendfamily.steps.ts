@@ -8,5 +8,5 @@ When(/^I click User profile link and click Friend Family link$/, async () => {
 });
 
 Then(/^I should navigate to Friend Famliy tab$/, async () => {
-    await FriendFamilyPage.navigateToAddNewFamilyFriend();
+    await FriendFamilyPage.navigateToAddNewFamilyFriend("firstname","lastname","one_fnf@mailinator.com");
 });

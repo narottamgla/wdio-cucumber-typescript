@@ -60,11 +60,17 @@ export default class BasePage {
         fs.writeFileSync(__dirname + path.sep+ filePath, JSON.stringify(json_obj, null, 2))
     }
 
-    public async readJsonFile(path: string) {
-        let old_data: any = fs.readFileSync(__dirname + path)
+    public async readJsonFile(filepath: string) {
+        let old_data: any = fs.readFileSync(__dirname +path.sep + filepath)
         let json_obj: any = JSON.parse(old_data)
-        let totalRecords = json_obj.size();
-        return json_obj[Math.floor(Math.random() * totalRecords) + 1];
+        let totalRecords = json_obj.length
+       // let testData = json_obj[Math.floor(Math.random() * totalRecords) + 1]
+        let testData = json_obj[0]
+
+        console.log("Test Data: "+ testData)
+        return testData;
+        //return json_obj[Math.floor(Math.random() * totalRecords) + 1];
+      //  return json_obj[0];
     }
 
 
