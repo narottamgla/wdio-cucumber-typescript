@@ -28,7 +28,6 @@ When(/^I fill username as (.+) and click continue button$/, async (useremail) =>
     await RegistrationPage.navigateToRegistrationPage(randomEmail);
     await RegistrationPage.verifyUserNavigationToRegistrationPage();
     await browser.pause(8000);
-    await RegistrationPage.writeToJson("\\logindata.json",randomEmail,"disney123",false);
 });
 
 When(/^I login with the existing user$/, async () => {
@@ -110,7 +109,3 @@ Then(/^I should change country as (.+) on registration page$/, async (country) =
     await browser.pause(2000);
     await RegistrationPage.validateChangeCountry(country.replace(/^"|"$/g, ''));
 });
-
-
-
-

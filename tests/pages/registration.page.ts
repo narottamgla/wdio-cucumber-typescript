@@ -1,4 +1,4 @@
-import { password } from "../data/random";
+import { password, userName } from "../data/random";
 import Page from "../pages/BasePage";
 
 class RegistrationPage extends Page {
@@ -487,6 +487,17 @@ class RegistrationPage extends Page {
         }
     }
 
+    async registerNewUser(useremail,password, dob, prefix, firstname, lastname,country, address1, address2, city, region, postalCode){
+        await this.navigateToRegistrationPage(useremail);
+        await this.verifyUserNavigationToRegistrationPage();
+        await this.enterUserDetails(prefix, firstname, lastname);
+        await this.enterPasswordDOB(password, dob);
+        await this.enterBillingDetails(country, address1, address2, city, region, postalCode);
+        await this.selectConsents();
+        await this.clickUserRegistrationButton();
+        await this.verifyIsLogOutButtonDisplayed();
+        await this.writeToJson("logindata.json",useremail,password,firstname,lastname);
+    }
 }
 
 export default new RegistrationPage();

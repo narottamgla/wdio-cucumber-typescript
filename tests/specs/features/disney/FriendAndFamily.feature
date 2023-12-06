@@ -6,7 +6,7 @@ Feature: Friends and Family feature for Disney world
   @mytest
   Scenario Outline: As a valid user, I should able to add/remove friend and family 
     Given I am on the login page
-    When I read the login data and login
+  #  When I read the login data and login
     When I click User profile link and click Friend Family link
     Then I should navigate to Friend Famliy tab
     Examples:
