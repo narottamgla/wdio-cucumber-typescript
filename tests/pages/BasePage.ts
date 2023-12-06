@@ -47,17 +47,17 @@ export default class BasePage {
     }
 
 
-    public async writeToJson(filePath: string, username: string,pass:string, rewrite: boolean = true) {
+    public async writeToJson(filePath: string, username: string,pass:string, firstname:string, lastname:string) {
 
-        rewrite=true;
         let old_data: any = fs.readFileSync(__dirname + path.sep + filePath)
      /**  if (old_data.length == 0 || rewrite == true) {
             fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
             return
         }**/
         let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
-       json_obj.push({username,pass})
+       json_obj.push({username,pass,firstname,lastname})
         fs.writeFileSync(__dirname + path.sep+ filePath, JSON.stringify(json_obj, null, 2))
+        console.log("Data successfully written to JSON File");
     }
 
     public async readJsonFile(filepath: string) {

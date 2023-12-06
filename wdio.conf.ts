@@ -20,7 +20,7 @@ export const config: Options.Testrunner = {
     // Specify Test Files
     // ==================
     specs: [
-        './tests/specs/features/disney/AccountSetting.feature'
+        './tests/specs/features/disney/FriendAndFamily.feature'
     ],
     exclude: [],
 
@@ -85,7 +85,7 @@ export const config: Options.Testrunner = {
         profile: [],
         strict: false,
         tagExpression: '@mytest',
-        timeout: 200000,
+        timeout: 600000,
         ignoreUndefinedDefinitions: false,
 
     },

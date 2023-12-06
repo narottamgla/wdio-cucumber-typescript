@@ -7,12 +7,12 @@ class FriendFamilyPage extends Page {
     get friendFamilyLink() {return $("(//a[@href='/profile/family-friends/'])[2]")};
     get friendFamilyPageHeader() {return $(".list-heading h3")}
     get addFriendFamilyButton() {return $("(//*[contains(text(),'Add a Guest')])[1]")}
-    get firstNameTxBx() {return  $("wdpr-input[formcontrolname='firstName']")}
-    get lastNameTxBx() {return  $("wdpr-input[formcontrolname='lastName']")}
+    get firstNameTxBx() {return  $("wdpr-input[formcontrolname='firstName']").shadow$("input")}
+    get lastNameTxBx() {return  $("wdpr-input[formcontrolname='lastName']").shadow$("input")}
 
-    get emailNameTxBx() {return  $("wdpr-input[formcontrolname='emailOrPhone']")}
+    get emailNameTxBx() {return  $("wdpr-input[formcontrolname='emailOrPhone']").shadow$("input")}
     get searchButton() {return $("//wdpr-button[contains(.,'Search')]")}
-    get doneButton() {return $("//wdpr-button[contains(.,'Done')}")}
+    get doneButton() {return $("(//wdpr-button[@theme='primary'])[2]")}
    
 
 
@@ -28,7 +28,7 @@ class FriendFamilyPage extends Page {
     get accountSettingLink() { return $("//div[text()='Manage how you sign in.']") }
 
 
-    async clickAccountSettingLink() {
+    async clickWelcomeUserLink() {
         await browser.pause(30000)
         await browser.refresh();
       //  await browser.switchToFrame(null);
@@ -50,13 +50,16 @@ class FriendFamilyPage extends Page {
 
     async navigateToAddNewFamilyFriend(firstName:string, lastName:string, email:string ){
         await this.clickElement(this.addFriendFamilyButton);
-        await browser.pause(90000)
+        await browser.pause(900)
         await this.firstNameTxBx.waitForDisplayed({ timeout: 30000 });   
-        await expect(this.firstNameTxBx).toBeDisplayed();   
+        await expect(this.firstNameTxBx).toBeDisplayed(); 
+        await browser.pause(9000)
+      //  await this.clickElement(this.firstNameTxBx);  
         await this.enterData(this.firstNameTxBx,firstName);
         await this.enterData(this.lastNameTxBx,lastName);
         await this.enterData(this.emailNameTxBx,email)
         await this.waitAndclick(this.searchButton);
+                await browser.pause(30000)
         await this. waitAndclick(this.doneButton);
         await browser.pause(30000)
 

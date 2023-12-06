@@ -2,5 +2,15 @@
   {
     "username": "mytest321@mailinator.com",
     "pass": "disney@123"
+  },
+  {
+    "username": "43893865testuser512@malinator.com",
+    "pass": "disney@123"
+  },
+  {
+    "username": "26826036testuser512@malinator.com",
+    "pass": "disney@123",
+    "firstname": "first",
+    "lastname": "last"
   }
 ]
