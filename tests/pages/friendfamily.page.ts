@@ -12,16 +12,21 @@ class FriendFamilyPage extends Page {
 
     get emailNameTxBx() {return  $("wdpr-input[formcontrolname='emailOrPhone']").shadow$("input")}
     get searchButton() {return $("//wdpr-button[contains(.,'Search')]")}
-    get doneButton() {return $("(//wdpr-button[@theme='primary'])[2]")}
+    get doneButton() {return $("//wdpr-button[contains(.,'Done')]")}
    
+    get sendButton() {return $("//wdpr-button[contains(.,'Send Invite')]")}
+
+    get sentButton() {return $("//wdpr-tab[contains(.,'Sent')]")}
+    get ResendButton() {return $$("(//button[@class='button'][contains(.,'Resend')])")}
+
+    get ResendButton1() {return $("(//button[contains(.,'Resend')])")}
+
+    get AllowButton() {return $("(//button[@class='button'][contains(.,'Allow')])[1]")}
+
+    get allowButton() {return $("//wdpr-button[contains(.,'Allow')]")}
 
 
-    
 
-
-
-
-   // get firstNameTxBx() {return  $("#JB8s4V")}
 
 
     get welcomeUser() { return $("(//a[@href='/profile'])[1]") }
@@ -58,15 +63,51 @@ class FriendFamilyPage extends Page {
         await this.enterData(this.firstNameTxBx,firstName);
         await this.enterData(this.lastNameTxBx,lastName);
         await this.enterData(this.emailNameTxBx,email)
+        await browser.pause(10000)
         await this.waitAndclick(this.searchButton);
-                await browser.pause(30000)
-        await this. waitAndclick(this.doneButton);
-        await browser.pause(30000)
-
+        await browser.pause(10000)
+        try {
+          await this.waitAndclick(this.allowButton);
+        } catch (error) {
+          
+        }
+        await browser.pause(10000)
+        await this.clickElement(this.sendButton) ;
+        await browser.pause(40000)
+      //  await browser.pause(3000)
     }
 
-
+    async clickGuestAddingDone() {
+     // await this.clickElement(this.sentButton) ;
+     // await browser.pause(30000) ;
+      await this.clickElement(this.ResendButton1) ;
+      await browser.pause(10000) ;
+      await this. clickElement(this.doneButton);
+      await browser.pause(30000) ;
 
 }
+
+
+
+//const ReendButton = () => $("(//button[@class='button'][contains(.,'Resend')])");
+
+async  clickReendButtons() {
+  const  buttons = await this.ResendButton;
+  const count = await buttons.length
+
+  for (const button of buttons) {
+    await button.click();
+  }
+
+  const remainingButtons = await this.ResendButton;
+
+  if (remainingButtons.length === 0) {
+    console.log("No more Resend buttons found.");
+  } else {
+    console.log(`There are ${remainingButtons.length} Resend buttons remaining.`);
+  }
+}
+}
+
 
 export default new FriendFamilyPage();
