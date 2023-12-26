@@ -84,7 +84,7 @@ export const config: Options.Testrunner = {
         source: true,
         profile: [],
         strict: false,
-        tagExpression: '@mytest',
+        tagExpression: '@pass1',
         timeout: 600000,
         ignoreUndefinedDefinitions: false,
 

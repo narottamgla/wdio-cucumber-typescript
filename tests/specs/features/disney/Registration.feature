@@ -4,7 +4,7 @@ Feature: Registration feature for Disney world
 
     Given I open the disneyworld Registration page
 
-@mytest
+
   Scenario Outline: As a user, I should able to change country for registration
     When I fill username as "test12@mailinator.com" and click continue button
     When I click on Edit Button to change country as "Malaysia"
@@ -36,7 +36,6 @@ Feature: Registration feature for Disney world
   #| tst3211235@mailinator.com | Miss   | sfname    | slname   | disney123 | 01-01-1989 | Spain          | 45, 3º, 2ª Ave     | Santa Mari       | Madrid  | Madrid     | 28012      |
   #| tst3211236@mailinator.com | Miss   | arfname   | arlname  | disney123 | 01-01-1989 | Argentina      | Humberto Primo 630 | Corboda          | Corboda | Corboda    | 14003      |
 
-@mytest
   Scenario Outline: As a valid user, I should able to register to disney world with <country> <password>
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>

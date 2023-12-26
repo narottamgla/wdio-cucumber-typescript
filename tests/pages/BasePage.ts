@@ -13,14 +13,27 @@ export default class BasePage {
     }
 
     protected async clickElement(element: WebElement) {
-        await element.click()
-        logStep(`Clicked on Element: ${await element.selector}`);
+        for (let i = 0; i < 3; i++) {
+
+            try {
+                await element.click()
+                logStep(`Clicked on Element: ${await element.selector}`);
+                await console.log("Entered email on registration page done with Frame : " + i)
+                break;
+
+            } catch (error) {
+                console.log("Error occurred with Clicked on Element: " + i)
+            }
+        }
+
+
     }
 
     protected async waitAndclick(element: WebElement, waitTime?: number) {
         await element.waitForClickable({ timeout: waitTime ? waitTime : 10000, timeoutMsg: "Timeout while clicking" })
         await element.click()
         logStep(`clicked on Element: ${await element.selector}`);
+        await browser.pause(5000);
     }
 
     protected async enterData(element: WebElement, value: string | number) {
@@ -47,30 +60,30 @@ export default class BasePage {
     }
 
 
-    public async writeToJson(filePath: string, username: string,pass:string, firstname:string, lastname:string) {
+    public async writeToJson(filePath: string, username: string, pass: string, firstname: string, lastname: string) {
 
         let old_data: any = fs.readFileSync(__dirname + path.sep + filePath)
-     /**  if (old_data.length == 0 || rewrite == true) {
-            fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
-            return
-        }**/
+        /**  if (old_data.length == 0 || rewrite == true) {
+               fs.writeFileSync(__dirname + path, JSON.stringify(data, null, 2))
+               return
+           }**/
         let json_obj: any = JSON.parse(old_data) // without brackets it reverts an error
-       json_obj.push({username,pass,firstname,lastname})
-        fs.writeFileSync(__dirname + path.sep+ filePath, JSON.stringify(json_obj, null, 2))
+        json_obj.push({ username, pass, firstname, lastname })
+        fs.writeFileSync(__dirname + path.sep + filePath, JSON.stringify(json_obj, null, 2))
         console.log("Data successfully written to JSON File");
     }
 
     public async readJsonFile(filepath: string) {
-        let old_data: any = fs.readFileSync(__dirname +path.sep + filepath)
+        let old_data: any = fs.readFileSync(__dirname + path.sep + filepath)
         let json_obj: any = JSON.parse(old_data)
         let totalRecords = json_obj.length
-       // let testData = json_obj[Math.floor(Math.random() * totalRecords) + 1]
+        // let testData = json_obj[Math.floor(Math.random() * totalRecords) + 1]
         let testData = json_obj[0]
 
-        console.log("Test Data: "+ testData)
+        console.log("Test Data: " + testData)
         return testData;
         //return json_obj[Math.floor(Math.random() * totalRecords) + 1];
-      //  return json_obj[0];
+        //  return json_obj[0];
     }
 
 

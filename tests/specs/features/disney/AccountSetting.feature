@@ -3,7 +3,6 @@ Feature: Account Setting feature for Disney world
   Background: Open Registration page
     Given I open the disneyworld Registration page
 
-  @mytest
   Scenario Outline: As a valid user, As a user, I should able to navigate change email/password screen
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -24,7 +23,6 @@ Feature: Account Setting feature for Disney world
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
-  @mytest
    Scenario Outline: As a valid user, As a user, I should able to check More security settings page
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -40,7 +38,6 @@ Feature: Account Setting feature for Disney world
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
-  @mytest
 Scenario Outline: As a valid user, As a user, I should able to change home/mobile phone
     When I fill username as <useremail> and click continue button
     When I enter mobile number to change and click Done Button 
@@ -52,7 +49,6 @@ Scenario Outline: As a valid user, As a user, I should able to change home/mobil
       | useremail                 |
       | tst3211234@mailinator.com |
 
-  @mytest
 Scenario Outline: As a valid user, As a user, I should able to check Learn More
     When I fill username as <useremail> and click continue button
     And I enter Prefix as <prefix>, firstname as <firstname> ,lastname as <lastname>
@@ -68,7 +64,7 @@ Scenario Outline: As a valid user, As a user, I should able to check Learn More
       | useremail                 | prefix | firstname | lastname | birthdate  | country       | line1       | line2   | city    | region     | postalcode |
       | tst3211234@mailinator.com | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      |
 
-  @mytest
+  
 Scenario Outline: As a valid user, As a user, I should able check Manage Email subscription
     When I fill username as <useremail> and click continue button
      When I click Manage Email subscription

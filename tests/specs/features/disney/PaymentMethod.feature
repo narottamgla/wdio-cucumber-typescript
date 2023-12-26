@@ -1,6 +1,6 @@
 Feature: Disney world Add New Paytment Method feature
 
-@mytest
+
   Scenario Outline: As a user, I should able to Add New payment Method
     Given I am on the login page
     When I login with <username> and <password>
