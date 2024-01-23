@@ -138,4 +138,24 @@ Then(/^I should navigate to First User as a Guest in Search fields who doesnt ha
      await FriendFamilyPage.clickManagedGuestLink();
 
  });
+
+
+ Then(/^I should see notification Modal with notifications$/, async () => {
+  FriendFamilyPage.navigateToManageNotificationModal();
+  FriendFamilyPage.acceptFriendShipInvitation();
+});
+
+
+When(/^I accepts pending invites for friend family$/, async () => {
+  FriendFamilyPage.acceptFriendShipInvitation();
+});
+
+When(/^I rejects pending invites for friend family$/, async () => {
+  FriendFamilyPage.rejectFriendShipInvitation();
+});
+
+Then(/^I should see user in friend family list with name as (.+)$/, async (username:string) => {
+  await FriendFamilyPage.validateAddedFriend(username)
+  await browser.pause(4000);
+});
  

@@ -3,7 +3,6 @@ Feature: Friends and Family feature for Disney world
   Background: Open Registration page
     Given I open the disneyworld Registration page
 
-  @pass
   Scenario Outline: As a valid user, I should be able to create friends by adding guests and view pending invites using search criteria
     Given I am on the login page
     When I click First User profile link and click Friend Family link
@@ -15,7 +14,6 @@ Feature: Friends and Family feature for Disney world
       | ${userEmailOfFirstNewUser} | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      | disney123 | ${userEmailOfSecondNewUser} | ${userEmailOfThirdNewUser} |
 
 
-@pass
   Scenario Outline: As a valid user, I should be able to create friends by adding guests and view pending invites using search criteria
     Given I am on the login page
     When I click Second User profile link and click Friend Family link
@@ -27,7 +25,6 @@ Feature: Friends and Family feature for Disney world
       | ${userEmailOfSecondNewUser} | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      | disney123 | ${userEmailOfSecondNewUser} | ${userEmailOfThirdNewUser} |
 
 
-@pass
   Scenario Outline: As a valid user, I should be able to create friends by adding guests and view pending invites using search criteria
     Given I am on the login page
     When I click Third User profile link and click Friend Family link
@@ -64,7 +61,7 @@ Feature: Friends and Family feature for Disney world
       | ${userEmailOfFirstNewUser} | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      | disney123 | ${userEmailOfSecondNewUser} | ${userEmailOfThirdNewUser} |
 
 
-  @pass1
+  @pass
   Scenario Outline: Multiple users Registration
     Given I am on the login page
     When I click First User profile link and click Friend Family link
@@ -80,6 +77,7 @@ Feature: Friends and Family feature for Disney world
       | ${userEmailOfFirstNewUser} | Miss   | afname    | alname   | 01-01-1989 | United States | 925 4th Ave | 4th Ave | Seattle | Washington | 98012      | disney123 | ${userEmailOfSecondNewUser} | ${userEmailOfThirdNewUser} |
 
 
+@pass
  Scenario Outline: As a valid user, I should able to accept friend and family 
     Given I am on the login page
     When I login with <username> and <password>
@@ -94,11 +92,12 @@ Feature: Friends and Family feature for Disney world
       | three_fnf@mailinator.com | disney123 |
 
 
+@pass
   Scenario: As a valid user, I should able to reject frined and family invites
     Given I am on the login page
     When I click User profile link and click Friend Family link
     Then I should navigate to Friend Famliy tab
     Given I am at the login page of "https://disneyworld.disney.go.com/login"
-    When I login existing user with email "three_fnf@mailinator.com" and  password as "disney@123"
+    When I login existing user with email "one_fnf@mailinator.com" and  password as "disney123"
     Then I should see notification Modal with notifications
     When I rejects pending invites for friend family

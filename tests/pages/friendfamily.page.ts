@@ -42,6 +42,15 @@ class FriendFamilyPage extends Page {
 
   get ManageGuestAgeOption() { return $(" /html/body/fnf-root/profile-layout/div/fnf-add-managed-guest/div/fnf-guest-form/div/form/div[3]/div[1]/wdpr-single-select") }
 
+  get notificationIcon() { return $("div.syndicated-message-badge__content") }
+
+  get notificationModalTitle() { return $(".syndicated-notifications-modal__title-bar h1") }
+
+  get manageNotificationLink() { return $(".syndicated-notifications-modal__message-link a") }
+
+  get acceptButton() { return $("//wdpr-button[contains(.,'Accept')]") }
+
+  get rejectButton() { return $("//wdpr-button[contains(.,'Reject')]") }
 
   async clickWelcomeUserLink() {
     await browser.pause(30000)
@@ -284,6 +293,28 @@ class FriendFamilyPage extends Page {
     } catch (error) {
       console.log(`Error occurred with ClickManageGuestAge1 : `);
     }
+
+  }
+
+  async navigateToManageNotificationModal() {
+    this.waitAndclick(this.notificationIcon);
+    await this.notificationModalTitle.waitForDisplayed({ timeout: 30000 });
+    await expect(this.notificationModalTitle).toBeDisplayed();
+
+  }
+
+  async acceptFriendShipInvitation() {
+    this.waitAndclick(this.manageNotificationLink);
+    this.waitAndclick(this.acceptButton);
+  }
+
+  async rejectFriendShipInvitation() {
+    this.waitAndclick(this.manageNotificationLink);
+    this.waitAndclick(this.rejectButton);
+  }
+
+  async validateAddedFriend(name: string) {
+    await expect((await $("//h4[contains(text(),'" + name + "')]")).isDisplayed()).toBeTruthy();
 
   }
 
